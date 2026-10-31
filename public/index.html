@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Hawktionary</title>
   <meta name="description" content="Dictionary, thesaurus and cryptic crossword helper. Works offline.">
-  <meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#191816" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F3EDE1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#171513" media="(prefers-color-scheme: dark)">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -24,60 +24,70 @@
   </script>
   <script type="module" src="js/app.js"></script>
 </head>
-<body>
-  <div class="app">
-    <header class="topbar">
-      <a class="wordmark" href="./" aria-label="Hawktionary home">
-        <span class="wm-square" aria-hidden="true">H</span><span class="wm-rest" aria-hidden="true">awktionary</span>
+<body data-module="dictionary">
+  <div class="shell">
+    <nav class="rail" aria-label="Sections">
+      <a class="rail-mark" href="#/" aria-label="Hawktionary">
+        <span class="wm-square" aria-hidden="true">H</span>
       </a>
-      <span class="offline-status" id="offline-status" aria-live="polite"></span>
-      <button class="icon-btn" id="menu-btn" aria-label="Menu" aria-haspopup="true" aria-expanded="false">
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </button>
-      <div class="menu" id="menu" hidden>
-        <div class="menu-group">
-          <div class="menu-label">Theme</div>
-          <div class="seg" id="theme-seg" role="radiogroup" aria-label="Theme">
-            <button role="radio" data-theme-choice="system">System</button>
-            <button role="radio" data-theme-choice="light">Light</button>
-            <button role="radio" data-theme-choice="dark">Dark</button>
-          </div>
-        </div>
-        <div class="menu-group">
-          <div class="menu-label">Offline</div>
-          <div class="menu-status" id="menu-storage">Checking…</div>
-        </div>
-        <button class="menu-item" id="about-btn">About and licences</button>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" data-go="dictionary">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10 5 7 4.6 3.5 5v13c3.5-.4 6.5 0 8.5 1.5 2-1.5 5-1.9 8.5-1.5V5C17 4.6 14 5 12 6.5zM12 6.5v13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <span>Dictionary</span>
+        </button>
+        <button class="tab" role="tab" data-go="thesaurus">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="2.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="6" r="2.4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="18" r="2.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8.2 11 15.8 7M8.2 13l7.6 4" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span>Thesaurus</span>
+        </button>
+        <button class="tab" role="tab" data-go="abbr">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="16.5" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-weight="700" fill="currentColor" letter-spacing=".5">Ab.</text><path d="M4 20.5h16" stroke="currentColor" stroke-width="1.2"/></svg>
+          <span>Abbreviations</span>
+        </button>
+        <button class="tab" role="tab" data-go="solve">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM9.33 4v16M14.67 4v16M4 9.33h16M4 14.67h16" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M4 4h5.33v5.33H4zM14.67 14.67H20V20h-5.33z" fill="currentColor"/></svg>
+          <span>Solve</span>
+        </button>
       </div>
-    </header>
+      <button class="rail-menu icon-btn" id="rail-menu-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </nav>
 
-    <div class="layout">
-      <main class="col-main">
-        <div class="searchbar">
-          <div class="search-field">
-            <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M15 15l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-            <input id="q" type="text" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"
-              placeholder="Word, ?a?e? pattern or /anagram" aria-label="Search">
-            <span class="mode-label" id="mode-label" aria-live="polite"></span>
-            <button class="icon-btn clear-btn" id="clear-btn" aria-label="Clear search" hidden>
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-            </button>
+    <div class="main">
+      <header class="masthead">
+        <a class="wordmark" href="#/" aria-label="Hawktionary">
+          <span class="wm-square" aria-hidden="true">H</span><span class="wm-rest" aria-hidden="true">awktionary</span>
+        </a>
+        <span class="mast-section" id="mast-section"></span>
+        <span class="offline-status" id="offline-status" aria-live="polite"></span>
+        <button class="icon-btn" id="menu-btn" aria-label="Menu" aria-haspopup="true" aria-expanded="false">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="menu" id="menu" hidden>
+          <div class="menu-group">
+            <div class="menu-label">Theme</div>
+            <div class="seg" id="theme-seg" role="radiogroup" aria-label="Theme">
+              <button role="radio" data-theme-choice="system">System</button>
+              <button role="radio" data-theme-choice="light">Light</button>
+              <button role="radio" data-theme-choice="dark">Dark</button>
+            </div>
           </div>
-          <div class="modes" role="tablist" aria-label="Search mode">
-            <button role="tab" data-mode="auto">Auto</button>
-            <button role="tab" data-mode="lookup">Lookup</button>
-            <button role="tab" data-mode="pattern">Pattern</button>
-            <button role="tab" data-mode="anagram">Anagram</button>
+          <div class="menu-group">
+            <div class="menu-label">Offline</div>
+            <div class="menu-status" id="menu-storage">Checking…</div>
           </div>
+          <button class="menu-item" id="about-btn">About and licences</button>
         </div>
-        <div id="tool" class="tool"></div>
-        <div id="results" class="results" aria-live="polite">
-          <p class="loading">Loading word list…</p>
-        </div>
-      </main>
-      <aside class="col-detail" id="detail" aria-label="Entry"></aside>
+      </header>
+
+      <section class="module" id="mod-dictionary" data-module="dictionary" aria-label="Dictionary"></section>
+      <section class="module" id="mod-thesaurus" data-module="thesaurus" aria-label="Thesaurus" hidden></section>
+      <section class="module" id="mod-abbr" data-module="abbr" aria-label="Abbreviations" hidden></section>
+      <section class="module" id="mod-solve" data-module="solve" aria-label="Solve" hidden></section>
     </div>
   </div>
+
+  <div class="boot" id="boot"><span class="wm-square">H</span><span class="boot-text">Opening the dictionary…</span></div>
 
   <div class="scrim" id="scrim" hidden></div>
   <section class="sheet" id="sheet" aria-modal="true" role="dialog" aria-label="Entry" hidden>
@@ -92,6 +102,7 @@
   </section>
 
   <div class="popover" id="popover" role="tooltip" hidden></div>
+  <div class="toast" id="toast" role="status" hidden></div>
 
   <dialog class="about" id="about">
     <div class="about-inner">

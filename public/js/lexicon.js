@@ -106,3 +106,27 @@ export function abbreviationsFor(code) {
 export function abbreviationsOfTerm(term) {
   return abbrByTerm.get(term.trim().toLowerCase().replace(/\s+/g, ' ')) || [];
 }
+
+/** True when `item` is really an abbreviation (e.g. "Ab" listed as a synonym of sailor). */
+export function isAbbreviationOf(item, headword) {
+  // a lower-case word (tar) is a real synonym even if the same letters are an abbreviation (TAR)
+  if (item === item.toLowerCase()) return false;
+  const rows = abbrByCode.get(item.toUpperCase());
+  if (!rows) return false;
+  const h = headword.toLowerCase();
+  if (rows.some(r => r.term.toLowerCase() === h)) return true;
+  // all capitals and short (RN, OS): an abbreviation, not a synonym
+  return item.length <= 5 && item === item.toUpperCase() && /[A-Z]/.test(item);
+}
+
+export function abbreviationCategories() {
+  const cats = new Map();
+  for (const rows of abbrByCode.values()) {
+    for (const r of rows) {
+      const c = cats.get(r.category) || { name: r.category, rows: [] };
+      c.rows.push(r);
+      cats.set(r.category, c);
+    }
+  }
+  return [...cats.values()];
+}

@@ -1,35 +1,37 @@
-// Search worker: pattern, anagram and letter lookups run here so typing never stutters.
+// Search worker: pattern, anagram and letter look-ups run here so typing never stutters.
 // It receives the words.tsv text from the data layer; it never fetches anything itself.
-import { fold, alphagram, band, shapeOf, parsePattern, compileMatcher } from './text.js';
+// Start-up builds only what lookup and pattern need; the anagram map, word shapes and the
+// alphabetical order are built afterwards ('warm') or on first use.
+import { fold, band, shapeOf, parsePattern, compileMatcher } from './text.js';
 
-let display = [], enumr = [], zipf = null, proper = null, letters = [], shapes = [];
-let byLength = [];          // length → array of indices
-let byAlphagram = new Map(); // alphagram → array of indices
-let byLetters = new Map();   // letters → array of indices
-let sortedByLetters = null;  // indices sorted by letters, for prefix search
+let display = [], enumr = [], zipf = null, proper = null, letters = [];
+let byLength = [];            // length → array of indices
+const byLetters = new Map();  // letters → array of indices
+let shapes = null;            // letters with ' ' and '-' breaks
+let byAlphagram = null;       // alphagram → array of indices
+let sorted = null;            // indices in alphabetical (letters) order
+let rank = null;              // index → position in sorted
 
 function build(text) {
   const lines = text.split('\n');
-  const n = lines.length;
-  zipf = new Float32Array(n);
-  proper = new Uint8Array(n);
+  zipf = new Float32Array(lines.length);
+  proper = new Uint8Array(lines.length);
   let count = 0;
   for (const raw of lines) {
-    if (!raw || raw[0] === '#') continue;
+    if (!raw || raw.charCodeAt(0) === 35) continue; // '#'
     const line = raw.endsWith('\r') ? raw.slice(0, -1) : raw;
-    const [d, e, z, f] = line.split('\t');
+    const t1 = line.indexOf('\t');
+    const t2 = line.indexOf('\t', t1 + 1);
+    const t3 = line.indexOf('\t', t2 + 1);
+    const d = line.slice(0, t1);
     const i = count++;
     display.push(d);
-    enumr.push(e || '');
-    zipf[i] = parseFloat(z) || 0;
-    proper[i] = f && f.includes('p') ? 1 : 0;
+    enumr.push(line.slice(t1 + 1, t2));
+    zipf[i] = parseFloat(line.slice(t2 + 1, t3 < 0 ? undefined : t3)) || 0;
+    proper[i] = t3 >= 0 && line.indexOf('p', t3) > 0 ? 1 : 0;
     const l = fold(d);
     letters.push(l);
-    shapes.push(shapeOf(l, e || String(l.length)));
     (byLength[l.length] ||= []).push(i);
-    const a = alphagram(l);
-    const al = byAlphagram.get(a);
-    if (al) al.push(i); else byAlphagram.set(a, [i]);
     const bl = byLetters.get(l);
     if (bl) bl.push(i); else byLetters.set(l, [i]);
   }
@@ -38,10 +40,40 @@ function build(text) {
   return count;
 }
 
+function ensureShapes() {
+  if (shapes) return;
+  shapes = new Array(letters.length);
+  for (let i = 0; i < letters.length; i++) {
+    const e = enumr[i];
+    shapes[i] = e.indexOf(',') < 0 && e.indexOf('-') < 0 ? letters[i] : shapeOf(letters[i], e);
+  }
+}
+
+const buf = new Uint8Array(128);
+function alphagram(l) {
+  const n = l.length;
+  if (n > 128) return l.split('').sort().join('');
+  for (let i = 0; i < n; i++) buf[i] = l.charCodeAt(i);
+  return String.fromCharCode.apply(null, buf.subarray(0, n).sort());
+}
+
+function ensureAlphagrams() {
+  if (byAlphagram) return;
+  byAlphagram = new Map();
+  for (let i = 0; i < letters.length; i++) {
+    const a = alphagram(letters[i]);
+    const al = byAlphagram.get(a);
+    if (al) al.push(i); else byAlphagram.set(a, [i]);
+  }
+}
+
 function ensureSorted() {
-  if (sortedByLetters) return;
-  sortedByLetters = Uint32Array.from(display.keys());
-  sortedByLetters.sort((a, b) => (letters[a] < letters[b] ? -1 : letters[a] > letters[b] ? 1 : zipf[b] - zipf[a]));
+  if (sorted) return;
+  sorted = Uint32Array.from(letters.keys());
+  sorted.sort((a, b) => (letters[a] < letters[b] ? -1 : letters[a] > letters[b] ? 1
+    : display[a] < display[b] ? -1 : display[a] > display[b] ? 1 : 0));
+  rank = new Uint32Array(sorted.length);
+  for (let k = 0; k < sorted.length; k++) rank[sorted[k]] = k;
 }
 
 function passes(i, opts) {
@@ -60,14 +92,14 @@ function finish(hits, limit) {
 function patternSearch({ text, phrases, proper: p, maxBand, limit = 400 }) {
   const parsed = parsePattern(text);
   if (!parsed) return { total: 0, results: [], parsed: null };
+  if (!phrases) ensureShapes();
   const match = compileMatcher(parsed, phrases);
   const opts = { proper: p, maxBand };
   const hits = [];
-  const pool = parsed.hasStar ? null : byLength[parsed.letterCount];
-  if (pool) {
-    for (const i of pool) if (match(letters[i], shapes[i]) && passes(i, opts)) hits.push(i);
-  } else if (parsed.hasStar) {
-    for (let i = 0; i < display.length; i++) if (match(letters[i], shapes[i]) && passes(i, opts)) hits.push(i);
+  if (parsed.hasStar) {
+    for (let i = 0; i < letters.length; i++) if (match(letters[i], shapes?.[i]) && passes(i, opts)) hits.push(i);
+  } else {
+    for (const i of byLength[parsed.letterCount] || []) if (match(letters[i], shapes?.[i]) && passes(i, opts)) hits.push(i);
   }
   return { ...finish(hits, limit), parsed };
 }
@@ -75,6 +107,7 @@ function patternSearch({ text, phrases, proper: p, maxBand, limit = 400 }) {
 const ABC = 'abcdefghijklmnopqrstuvwxyz';
 
 function anagramSearch({ fodder, pattern, proper: p, maxBand, limit = 400 }) {
+  ensureAlphagrams();
   const raw = fodder.toLowerCase();
   const blanks = Math.min(2, (raw.match(/[?.#]/g) || []).length);
   const base = fold(raw);
@@ -86,16 +119,17 @@ function anagramSearch({ fodder, pattern, proper: p, maxBand, limit = 400 }) {
   let filter = null;
   if (pattern && pattern.trim()) {
     const parsed = parsePattern(pattern);
-    if (parsed) filter = compileMatcher(parsed, !parsed.hasBreaks);
+    if (parsed) {
+      if (parsed.hasBreaks) ensureShapes();
+      filter = compileMatcher(parsed, !parsed.hasBreaks);
+    }
   }
   const opts = { proper: p, maxBand };
   const hits = [];
   for (const k of keys) {
-    const list = byAlphagram.get(k);
-    if (!list) continue;
-    for (const i of list) {
+    for (const i of byAlphagram.get(k) || []) {
       if (!passes(i, opts)) continue;
-      if (filter && !filter(letters[i], shapes[i])) continue;
+      if (filter && !filter(letters[i], shapes?.[i])) continue;
       hits.push(i);
     }
   }
@@ -108,15 +142,14 @@ function lookup({ text, limit = 12 }) {
   if (!l) return { exact: [], prefix: [] };
   const exact = (byLetters.get(l) || []).slice().sort(byZipf);
   ensureSorted();
-  // binary search for the first entry whose letters start with l
-  let lo = 0, hi = sortedByLetters.length;
+  let lo = 0, hi = sorted.length;
   while (lo < hi) {
     const mid = (lo + hi) >> 1;
-    if (letters[sortedByLetters[mid]] < l) lo = mid + 1; else hi = mid;
+    if (letters[sorted[mid]] < l) lo = mid + 1; else hi = mid;
   }
   const prefix = [];
-  for (let k = lo; k < sortedByLetters.length && prefix.length < 2000; k++) {
-    const i = sortedByLetters[k];
+  for (let k = lo; k < sorted.length && prefix.length < 3000; k++) {
+    const i = sorted[k];
     if (!letters[i].startsWith(l)) break;
     if (letters[i] !== l) prefix.push(i);
   }
@@ -124,14 +157,26 @@ function lookup({ text, limit = 12 }) {
   return { exact, prefix: prefix.slice(0, limit) };
 }
 
+/** Alphabetical neighbours of an entry, for the running head. */
+function neighbours({ index, count = 1 }) {
+  ensureSorted();
+  const k = rank[index];
+  const before = [], after = [];
+  for (let j = k - 1; j >= 0 && before.length < count; j--) before.push(sorted[j]);
+  for (let j = k + 1; j < sorted.length && after.length < count; j++) after.push(sorted[j]);
+  return { before, after };
+}
+
 self.onmessage = (ev) => {
   const { id, type, payload } = ev.data;
   try {
     let result;
     if (type === 'init') result = { count: build(payload) };
+    else if (type === 'warm') { ensureAlphagrams(); ensureShapes(); ensureSorted(); result = true; }
     else if (type === 'pattern') result = patternSearch(payload);
     else if (type === 'anagram') result = anagramSearch(payload);
     else if (type === 'lookup') result = lookup(payload);
+    else if (type === 'neighbours') result = neighbours(payload);
     else throw new Error('Unknown query ' + type);
     self.postMessage({ id, result });
   } catch (err) {

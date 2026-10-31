@@ -4,13 +4,11 @@ A personal dictionary, thesaurus and cryptic crossword helper. An installable we
 
 ## Run it locally
 
-Serve the `public` folder with any static server, for example:
-
 ```
-python -m http.server 5173 -d public
+python tools/serve.py
 ```
 
-Then open http://localhost:5173.
+Then open http://localhost:5173. This server turns caching off so edits show on reload. The service worker is skipped on localhost; add `?sw` to the address to test offline mode locally.
 
 ## Restyling
 

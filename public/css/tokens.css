@@ -3,37 +3,61 @@
    "Make it darker", "try a different accent", "less animation" = edit this file only. */
 
 :root {
-  /* Colours: light */
-  --paper: #F6F3EC;
-  --card: #FFFDF8;
-  --ink: #1B1A17;
-  --muted: #5E5A52;
-  --faint: #8A8478;          /* dimmed obscure words; large text only */
-  --rule: #DDD6C8;
-  --rule-soft: #ECE6DA;
-  --accent: #B8322A;         /* crossword red */
-  --accent-ink: #FFFFFF;     /* text on accent */
-  --accent-soft: #F3E1DC;    /* accent tint for highlights */
-  --square-bg: #FFFDF8;
-  --square-ink: #1B1A17;
-  --square-border: #1B1A17;
-  --square-filled: #1B1A17;  /* the black square in the wordmark */
-  --square-filled-ink: #FFFDF8;
-  --shadow: 0 1px 2px rgba(27, 26, 23, .06), 0 8px 24px rgba(27, 26, 23, .08);
-  --scrim: rgba(27, 26, 23, .32);
+  /* Paper and ink: light */
+  --paper: #F3EDE1;          /* the desk / page background */
+  --page: #FBF7EF;           /* a printed page or card */
+  --ink: #201B15;
+  --ink-2: #3A332A;          /* body text, a touch softer than headings */
+  --muted: #625A4F;
+  --faint: #736A5F;          /* rare words; still 4.5:1 on paper */
+  --rule: #D8CDB9;
+  --rule-soft: #E8DFCF;
+  --shadow: 0 1px 1px rgba(60, 40, 10, .05), 0 6px 22px rgba(60, 40, 10, .08);
+  --shadow-lift: 0 2px 4px rgba(60, 40, 10, .08), 0 14px 36px rgba(60, 40, 10, .14);
+  --scrim: rgba(32, 27, 21, .34);
+  --grain-opacity: .05;      /* paper texture; 0 turns it off */
+
+  /* One ink per module */
+  --ink-dictionary: #7A1F2B;   /* oxblood */
+  --ink-thesaurus: #1F3F73;    /* deep blue */
+  --ink-abbr: #1D5A3E;         /* bottle green */
+  --ink-solve: #B0302A;        /* crossword red */
+  --gold: #9A7428;             /* fine rules and ornaments */
+
+  /* Word strength by frequency band: same size, different weight and colour */
+  --b1-weight: 650;  --b1-color: var(--ink);
+  --b2-weight: 450;  --b2-color: var(--ink-2);
+  --b3-weight: 400;  --b3-color: var(--muted);
+  --b4-weight: 400;  --b4-color: var(--muted);   /* italic */
+  --b5-weight: 380;  --b5-color: var(--faint);   /* italic */
+
+  /* Letterpress type blocks (anagram letters) */
+  --block-bg: #EDE3CF;
+  --block-edge: #C9B998;
+  --block-ink: #2A231B;
+  --block-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), inset 0 -2px 0 rgba(90, 64, 20, .14), 0 1px 2px rgba(60, 40, 10, .22);
+  --block-press: inset 0 1px 3px rgba(90, 64, 20, .3);
+
+  /* Crossword grid cells (pattern slot and answers) */
+  --cell-bg: #FFFDF8;
+  --cell-border: #201B15;
+  --cell-given: #201B15;     /* letters you typed */
+  --cell-tried: #B0302A;     /* letters a candidate fills in */
 
   /* Type */
   --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --text-2xs: 0.6875rem;
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-md: 1rem;
-  --text-lg: 1.1875rem;
-  --text-xl: 1.5rem;
-  --text-2xl: 2rem;
-  --headword-size: 2.125rem;
-  --line: 1.5;
-  --serif-opsz: 72;          /* Fraunces optical size for headings */
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --headword-size: clamp(2.4rem, 9vw, 3.6rem);
+  --dropcap-lines: 2;
+  --line: 1.55;
+  --caps-spacing: .12em;     /* letter-spacing for small capitals */
 
   /* Spacing */
   --space-1: 4px;
@@ -44,71 +68,92 @@
   --space-6: 32px;
   --space-7: 48px;
   --gutter: 16px;
-  --radius: 3px;             /* keep corners crisp */
-  --radius-sheet: 12px;
-  --touch: 44px;             /* minimum touch target */
+  --radius: 3px;
+  --radius-sheet: 14px;
+  --touch: 44px;
 
-  /* Letter squares */
-  --square-size: 38px;
-  --square-size-sm: 30px;
-  --square-border-width: 1.5px;
-  --square-gap-word: 12px;   /* gap that shows a word break */
+  /* Grid cells and type blocks */
+  --cell: 40px;
+  --cell-sm: 30px;
+  --cell-border-width: 1.5px;
+  --cell-gap-word: 12px;
 
   /* Layout */
-  --content-max: 1180px;
-  --wide-left: 440px;        /* left column width on tablet/PC */
+  --content-max: 1240px;
+  --rail: 92px;              /* left rail on tablet/PC */
+  --tabbar: 64px;            /* bottom tab bar on phones */
+  --list-col: 10.5rem;       /* minimum column width in word lists */
 
   /* Motion */
   --ease-out: cubic-bezier(.2, .7, .2, 1);
   --ease-in-out: cubic-bezier(.4, 0, .2, 1);
+  --ease-settle: cubic-bezier(.3, .8, .3, 1.12);
   --dur-fast: 150ms;
   --dur-med: 260ms;
-  --dur-slow: 420ms;
-  --stagger: 40ms;           /* delay between result rows */
-  --stagger-max: 12;         /* rows after this appear together */
-  --rise: 8px;               /* how far results rise as they fade in */
+  --dur-slow: 440ms;
+  --stagger: 28ms;
+  --stagger-max: 14;
+  --rise: 6px;
   --hover-delay: 300;        /* ms before a definition popover appears (read by JS) */
 }
 
-/* Colours: dark (charcoal background, cream text, same accent family) */
+/* Paper and ink: dark (charcoal desk, cream type, same ink families brightened) */
 :root[data-theme="dark"] {
-  --paper: #191816;
-  --card: #22211E;
-  --ink: #EDE7D9;
-  --muted: #ADA697;
-  --faint: #7D776B;
-  --rule: #3A3732;
-  --rule-soft: #2D2B27;
-  --accent: #E0645A;
-  --accent-ink: #191816;
-  --accent-soft: #3C2523;
-  --square-bg: #22211E;
-  --square-ink: #EDE7D9;
-  --square-border: #CFC8B8;
-  --square-filled: #EDE7D9;
-  --square-filled-ink: #191816;
-  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 28px rgba(0, 0, 0, .4);
-  --scrim: rgba(0, 0, 0, .5);
+  --paper: #171513;
+  --page: #211E1A;
+  --ink: #EFE7D7;
+  --ink-2: #DCD3C2;
+  --muted: #ADA493;
+  --faint: #8F8676;
+  --rule: #3B362F;
+  --rule-soft: #2C2824;
+  --shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 8px 26px rgba(0, 0, 0, .35);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, .35), 0 16px 40px rgba(0, 0, 0, .5);
+  --scrim: rgba(0, 0, 0, .55);
+  --grain-opacity: .07;
+  --ink-dictionary: #E08A92;
+  --ink-thesaurus: #93B3E8;
+  --ink-abbr: #7DC6A2;
+  --ink-solve: #EC6D61;
+  --gold: #CDA75A;
+  --block-bg: #3A332A;
+  --block-edge: #574D3F;
+  --block-ink: #F3EADA;
+  --block-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), inset 0 -2px 0 rgba(0, 0, 0, .35), 0 1px 2px rgba(0, 0, 0, .5);
+  --block-press: inset 0 1px 3px rgba(0, 0, 0, .6);
+  --cell-bg: #262220;
+  --cell-border: #D9CFBD;
+  --cell-given: #EFE7D7;
+  --cell-tried: #EC6D61;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #191816;
-    --card: #22211E;
-    --ink: #EDE7D9;
-    --muted: #ADA697;
-    --faint: #7D776B;
-    --rule: #3A3732;
-    --rule-soft: #2D2B27;
-    --accent: #E0645A;
-    --accent-ink: #191816;
-    --accent-soft: #3C2523;
-    --square-bg: #22211E;
-    --square-ink: #EDE7D9;
-    --square-border: #CFC8B8;
-    --square-filled: #EDE7D9;
-    --square-filled-ink: #191816;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 28px rgba(0, 0, 0, .4);
-    --scrim: rgba(0, 0, 0, .5);
+    --paper: #171513;
+    --page: #211E1A;
+    --ink: #EFE7D7;
+    --ink-2: #DCD3C2;
+    --muted: #ADA493;
+    --faint: #8F8676;
+    --rule: #3B362F;
+    --rule-soft: #2C2824;
+    --shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 8px 26px rgba(0, 0, 0, .35);
+    --shadow-lift: 0 2px 4px rgba(0, 0, 0, .35), 0 16px 40px rgba(0, 0, 0, .5);
+    --scrim: rgba(0, 0, 0, .55);
+    --grain-opacity: .07;
+    --ink-dictionary: #E08A92;
+    --ink-thesaurus: #93B3E8;
+    --ink-abbr: #7DC6A2;
+    --ink-solve: #EC6D61;
+    --gold: #CDA75A;
+    --block-bg: #3A332A;
+    --block-edge: #574D3F;
+    --block-ink: #F3EADA;
+    --block-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), inset 0 -2px 0 rgba(0, 0, 0, .35), 0 1px 2px rgba(0, 0, 0, .5);
+    --block-press: inset 0 1px 3px rgba(0, 0, 0, .6);
+    --cell-bg: #262220;
+    --cell-border: #D9CFBD;
+    --cell-given: #EFE7D7;
+    --cell-tried: #EC6D61;
   }
 }
 

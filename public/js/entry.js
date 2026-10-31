@@ -1,10 +1,11 @@
-// Rendering a dictionary + thesaurus entry, and turning words in text into definition links.
+// The dictionary page for one entry (Reference Book style), plus helpers shared by other modules.
 import { getEntry, getPref, setPref } from './data.js';
-import { words, indexOf, zipfOf, bandOf } from './lexicon.js';
-import { band, BAND_NAMES, makeDisplayFilter } from './text.js';
+import { words, indexOf, zipfOf, ask, abbreviationsOfTerm, isAbbreviationOf } from './lexicon.js';
+import { band, BAND_NAMES } from './text.js';
 import { h, esc } from './dom.js';
+import { wordList } from './wordlist.js';
 
-const POS = {
+export const POS = {
   noun: 'noun', verb: 'verb', adj: 'adjective', adv: 'adverb', name: 'proper noun', intj: 'interjection',
   prep_phrase: 'prepositional phrase', prep: 'preposition', pron: 'pronoun', conj: 'conjunction',
   phrase: 'phrase', det: 'determiner', proverb: 'proverb', num: 'numeral', symbol: 'symbol',
@@ -12,7 +13,6 @@ const POS = {
   postp: 'postposition', prefix: 'prefix', suffix: 'suffix',
 };
 const SOURCE = { w: 'Wiktionary', n: 'WordNet' };
-const LIST_LIMIT = 40;
 
 /** A word that opens its definition. */
 export function wordLink(display, cls = '') {
@@ -41,13 +41,40 @@ export function enumOf(display) {
   return i < 0 ? '' : words.enumr[i];
 }
 
-export function freqBar(zipf, i = 0) {
-  const z = Math.max(0.04, Math.min(1, zipf / 7));
-  return h('span', { class: 'freq', title: `Frequency ${zipf.toFixed(1)} (${BAND_NAMES[band(zipf)]})`, style: { '--i': i } },
-    h('span', { style: { '--z': z.toFixed(3) } }));
+/** Thesaurus items as word-list items: no duplicates, not the word itself, no abbreviations. */
+export function thesaurusItems(list, headword) {
+  const seen = new Set([headword.toLowerCase()]);
+  const out = [];
+  for (const w of list || []) {
+    const k = w.toLowerCase();
+    if (seen.has(k) || isAbbreviationOf(w, headword)) continue;
+    seen.add(k);
+    out.push({ d: w, z: zipfOf(w), e: enumOf(w) });
+  }
+  return out.sort((a, b) => b.z - a.z);
 }
 
-/** Group [pos, gloss, source] rows by part of speech, keeping first-seen order. */
+export function isPinned(display) {
+  return getPref('pins', []).includes(display);
+}
+
+function pinButton(display) {
+  const pinned = isPinned(display);
+  const b = h('button', {
+    class: 'icon-btn pin-btn', 'aria-pressed': String(pinned), 'aria-label': pinned ? 'Unpin' : 'Pin',
+    html: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M7 4h10v16l-5-4-5 4z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+  });
+  b.addEventListener('click', () => {
+    let pins = getPref('pins', []);
+    pins = pins.includes(display) ? pins.filter(p => p !== display) : [display, ...pins].slice(0, 200);
+    setPref('pins', pins);
+    const on = pins.includes(display);
+    b.setAttribute('aria-pressed', String(on));
+    b.setAttribute('aria-label', on ? 'Unpin' : 'Pin');
+  });
+  return b;
+}
+
 function groupDefs(d) {
   const groups = new Map();
   for (const [pos, gloss, src] of d) {
@@ -57,16 +84,17 @@ function groupDefs(d) {
   return groups;
 }
 
-function defsBlock(d, limit = Infinity) {
+function defsBlock(d, { limit = Infinity, lead = true } = {}) {
   const frag = h('div', { class: 'defs' });
   let shown = 0;
   for (const [pos, list] of groupDefs(d)) {
     if (shown >= limit) break;
-    frag.append(h('div', { class: 'pos' }, POS[pos] || pos.replace(/_/g, ' ')));
+    frag.append(h('h4', { class: 'pos' }, POS[pos] || pos.replace(/_/g, ' ')));
     const ol = h('ol');
     for (const [gloss, src] of list) {
       if (shown >= limit) break;
-      ol.append(h('li', { class: 'gloss' + (src === 'n' ? ' wn' : ''), title: SOURCE[src] || '', html: linkify(gloss) }));
+      const cls = ['gloss', src === 'n' ? 'wn' : '', lead && shown === 0 ? 'lead' : ''].filter(Boolean).join(' ');
+      ol.append(h('li', { class: cls, title: SOURCE[src] || '', html: linkify(gloss) }));
       shown++;
     }
     frag.append(ol);
@@ -74,154 +102,109 @@ function defsBlock(d, limit = Infinity) {
   return frag;
 }
 
-/** First definition as plain gloss, for compact places. */
-export function firstGlosses(record, n = 3) {
-  return (record?.d || []).slice(0, n);
+/** Running head: ‹ previous · HEADWORD · next › in alphabetical order. */
+function runningHead(display, onGo) {
+  const head = h('nav', { class: 'running-head', 'aria-label': 'Alphabetical neighbours' },
+    h('span', { class: 'rh-side rh-prev' }), h('span', { class: 'rh-here' }, display), h('span', { class: 'rh-side rh-next' }));
+  const i = indexOf(display);
+  if (i >= 0) {
+    ask('neighbours', { index: i }).then(({ before, after }) => {
+      const mk = (idx, dir) => {
+        const d = words.display[idx];
+        const b = h('button', { class: 'rh-link', 'data-dir': dir, title: d }, dir === 'prev' ? '‹ ' : '', d, dir === 'next' ? ' ›' : '');
+        b.addEventListener('click', () => onGo(d, dir));
+        return b;
+      };
+      if (before[0] !== undefined) head.querySelector('.rh-prev').append(mk(before[0], 'prev'));
+      if (after[0] !== undefined) head.querySelector('.rh-next').append(mk(after[0], 'next'));
+    });
+  }
+  return head;
 }
 
-export function isPinned(display) {
-  return getPref('pins', []).includes(display);
-}
-
-function togglePin(display, btn) {
-  let pins = getPref('pins', []);
-  if (pins.includes(display)) pins = pins.filter(p => p !== display);
-  else pins = [display, ...pins].slice(0, 200);
-  setPref('pins', pins);
-  btn.setAttribute('aria-pressed', String(pins.includes(display)));
-  btn.setAttribute('aria-label', pins.includes(display) ? 'Unpin' : 'Pin');
-}
-
-const PIN_ICON = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M7 4h10v16l-5-4-5 4z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>';
-
-function entryHead(display, headingLevel = 'h2') {
+/**
+ * The full page for an entry.
+ * ctx: { onNeighbour(display, dir), onThesaurus(display), onAbbr(term), compact }
+ */
+export async function renderPage(display, ctx = {}) {
+  const record = await getEntry(display);
+  const i = indexOf(display);
   const zipf = zipfOf(display);
   const e = enumOf(display);
-  const pinned = isPinned(display);
-  const pin = h('button', {
-    class: 'icon-btn pin-btn', 'aria-pressed': String(pinned), 'aria-label': pinned ? 'Unpin' : 'Pin', html: PIN_ICON,
-  });
-  pin.addEventListener('click', () => togglePin(display, pin));
-  return h('header', null,
-    h('div', { class: 'entry-head' }, h(headingLevel, { class: 'headword' }, display), pin),
-    h('div', { class: 'entry-meta' },
-      e ? h('span', { class: 'enum' }, `(${e})`) : null,
-      freqBar(zipf),
-      h('span', null, BAND_NAMES[band(zipf)]),
-      indexOf(display) >= 0 && words.proper[indexOf(display)] ? h('span', null, 'proper noun') : null));
-}
+  const page = h('article', { class: 'page' + (ctx.compact ? ' compact' : '') });
+  if (ctx.onNeighbour) page.append(runningHead(display, ctx.onNeighbour));
+  page.append(
+    h('header', { class: 'page-head' }, h('h2', { class: 'headword' }, display), pinButton(display)),
+    h('div', { class: 'page-meta' },
+      e ? h('span', { class: 'meta-enum' }, `(${e})`) : null,
+      h('span', { class: `meta-band b${band(zipf)}` }, BAND_NAMES[band(zipf)]),
+      h('span', { class: 'meta-bar', title: `Frequency ${zipf.toFixed(1)}` }, h('span', { style: { '--z': Math.max(.04, Math.min(1, zipf / 7)).toFixed(3) } })),
+      i >= 0 && words.proper[i] ? h('span', null, 'proper noun') : null),
+    h('div', { class: 'ornament', 'aria-hidden': 'true' }));
 
-/* ---------- thesaurus ---------- */
-
-function sortByZipf(list, self) {
-  const seen = new Set([self]);
-  return list.filter(w => !seen.has(w) && seen.add(w))
-    .map(w => [w, zipfOf(w)]).sort((a, b) => b[1] - a[1]);
-}
-
-function thesaurusSection(record, display) {
-  const groups = [
-    ['Synonyms', record.s],
-    ['Type of', record.t],
-    ['Kinds', record.k],
-  ].filter(([, l]) => l && l.length).map(([label, l]) => [label, sortByZipf(l, display)]).filter(([, l]) => l.length);
-  if (!groups.length) return null;
-
-  const input = h('input', { type: 'text', placeholder: 'Filter by pattern: ??? or g* or 3', 'aria-label': 'Filter thesaurus by pattern', autocapitalize: 'off', autocomplete: 'off', spellcheck: 'false' });
-  const count = h('span');
-  const body = h('div');
-
-  function render() {
-    const filter = makeDisplayFilter(input.value.trim());
-    body.replaceChildren();
-    let total = 0;
-    for (const [label, list] of groups) {
-      const items = filter ? list.filter(([w]) => filter(w, enumOf(w))) : list;
-      if (!items.length) continue;
-      total += items.length;
-      const wordsEl = h('div', { class: 'thes-words' });
-      const showAll = !!filter || items.length <= LIST_LIMIT;
-      const visible = showAll ? items : items.slice(0, LIST_LIMIT);
-      fillWords(wordsEl, visible);
-      const group = h('div', { class: 'thes-group' }, h('h4', null, label, h('small', null, items.length)), wordsEl);
-      if (!showAll) {
-        const more = h('button', { class: 'show-all' }, `Show all ${items.length}`);
-        more.addEventListener('click', () => { wordsEl.replaceChildren(); fillWords(wordsEl, items); more.remove(); });
-        group.append(more);
-      }
-      body.append(group);
-    }
-    count.textContent = filter ? `${total} match${total === 1 ? '' : 'es'}` : '';
-    if (filter && !total) body.append(h('p', { class: 'note' }, 'Nothing matches that pattern.'));
-  }
-  input.addEventListener('input', render);
-  render();
-  return h('section', { class: 'thesaurus' }, h('h3', null, 'Thesaurus'),
-    h('div', { class: 'thes-filter' }, input, count), body);
-}
-
-function fillWords(el, items) {
-  items.forEach(([w, z], n) => {
-    if (n) el.append(h('span', { class: 'sep' }, '·'));
-    const b = band(z);
-    el.append(wordLink(w, b === 5 ? 'dim' : b === 1 ? 'common' : ''));
-  });
-}
-
-/* ---------- the entry ---------- */
-
-/** Build the full entry element for a display string. */
-export async function renderEntry(display) {
-  const record = await getEntry(display);
-  const art = h('article', { class: 'entry' }, entryHead(display));
-  const defs = h('section');
-
+  const body = h('section', { class: 'page-body' });
   if (record?.d?.length) {
-    defs.append(defsBlock(record.d));
+    body.append(defsBlock(record.d));
     if (record.f?.length) {
-      defs.append(h('ul', { class: 'also' }, record.f.map(([g, base]) =>
+      body.append(h('ul', { class: 'also' }, record.f.map(([g, base]) =>
         h('li', null, h('span', { html: linkify(g) }), base && base !== display ? [' → ', wordLink(base)] : null))));
     }
   } else if (record?.f?.length) {
-    // form-of: "plural of ale" and the base word's definitions underneath
-    for (const [g, base] of record.f) {
-      defs.append(h('p', { class: 'formof gloss', html: linkify(g) }));
-    }
+    for (const [g] of record.f) body.append(h('p', { class: 'formof gloss', html: linkify(g) }));
     const base = record.f.map(f => f[1]).find(b => b && b !== display);
     if (base) {
       const baseRec = await getEntry(base);
-      const box = h('div', { class: 'base-entry' }, h('div', { class: 'entry-head' }, h('h3', { class: 'headword' }, wordLink(base))));
-      if (baseRec?.d?.length) box.append(defsBlock(baseRec.d, 8));
-      else box.append(h('p', { class: 'empty-def' }, 'No definition yet.'));
-      defs.append(box);
+      const box = h('div', { class: 'base-entry' }, h('h3', { class: 'base-word' }, wordLink(base)));
+      box.append(baseRec?.d?.length ? defsBlock(baseRec.d, { limit: 8, lead: false }) : h('p', { class: 'empty-def' }, 'No definition yet.'));
+      body.append(box);
     }
   } else if (/[\s-]/.test(display.trim())) {
-    // phrase or hyphenated: built from its parts
     const parts = display.split(/[\s-]+/).filter(Boolean);
     const dl = h('dl', { class: 'built-from' });
     for (const p of parts) {
       const rec = await getEntry(p) || await getEntry(p.toLowerCase());
       const first = rec?.d?.[0];
       dl.append(h('dt', null, wordLink(indexOf(p) >= 0 ? words.display[indexOf(p)] : p)),
-        h('dd', { class: 'gloss', html: first ? `<i>${esc(POS[first[0]] || first[0])}</i> ${linkify(first[1])}` : '<span class="empty-def">No definition yet.</span>' }));
+        h('dd', { class: 'gloss', html: first ? `<i class="pos-inline">${esc(POS[first[0]] || first[0])}</i> ${linkify(first[1])}` : '<span class="empty-def">No definition yet.</span>' }));
     }
-    defs.append(h('p', { class: 'note' }, 'Built from: ' + parts.join(' + ')), dl);
+    body.append(h('p', { class: 'built-label' }, 'Built from ', parts.join(' + ')), dl);
   } else {
-    defs.append(h('p', { class: 'empty-def' }, indexOf(display) >= 0 ? 'Valid word, no definition yet.' : 'Not in the word list.'));
+    body.append(h('p', { class: 'empty-def' }, i >= 0 ? 'Valid word, no definition yet.' : 'Not in the word list.'));
   }
-  art.append(defs);
-  if (record) {
-    const thes = thesaurusSection(record, display);
-    if (thes) art.append(thes);
+  page.append(body);
+
+  // a taste of the thesaurus, with a way into the full Thesaurus module
+  const syn = thesaurusItems([...(record?.s || []), ...(record?.t || [])], display);
+  if (syn.length) {
+    const sec = h('section', { class: 'page-thes tint-thesaurus' },
+      h('div', { class: 'sec-head' }, h('h3', null, 'Thesaurus'),
+        ctx.onThesaurus ? h('button', { class: 'sec-link', onclick: () => ctx.onThesaurus(display) }, `All ${countThesaurus(record, display)} ›`) : null),
+      wordList(syn.slice(0, 18), { initial: 18 }));
+    page.append(sec);
   }
-  return art;
+
+  // abbreviations for this word, kept apart and clearly marked
+  const abbr = abbreviationsOfTerm(display);
+  if (abbr.length) {
+    const t1 = abbr.filter(r => r.tier === 1);
+    const shown = (t1.length ? t1 : abbr).slice(0, 8);
+    page.append(h('section', { class: 'page-abbr tint-abbr' },
+      h('div', { class: 'sec-head' }, h('h3', null, 'Abbreviated as'),
+        ctx.onAbbr ? h('button', { class: 'sec-link', onclick: () => ctx.onAbbr(display) }, abbr.length > shown.length ? `All ${abbr.length} ›` : 'Open ›') : null),
+      h('p', { class: 'abbr-line' }, shown.map((r, n) => [n ? h('span', { class: 'dot' }, '·') : null, h('b', { class: 'code' }, r.abbr)]))));
+  }
+  return page;
+}
+
+function countThesaurus(record, display) {
+  return thesaurusItems([...(record.s || []), ...(record.t || []), ...(record.k || [])], display).length;
 }
 
 /** Short content for the hover popover. */
 export async function renderPreview(display) {
   const record = await getEntry(display);
   const e = enumOf(display);
-  const box = h('div', null, h('span', { class: 'pw' }, display), e ? h('span', { class: 'pe' }, `(${e})`) : null);
+  const box = h('div', null, h('span', { class: 'pw' }, display), e ? h('span', { class: 'pe' }, ` (${e})`) : null);
   const d = record?.d?.slice(0, 3);
   if (d?.length) {
     box.append(h('ol', null, d.map(([pos, g]) => h('li', { html: `<span class="pp">${esc(POS[pos] || pos)}</span> ${esc(g)}` }))));
@@ -231,4 +214,12 @@ export async function renderPreview(display) {
     box.append(h('p', { class: 'empty-def' }, 'No definition yet.'));
   }
   return box;
+}
+
+/** The first definition of a word as plain text, or ''. */
+export async function firstGloss(display) {
+  const r = await getEntry(display);
+  if (r?.d?.length) return r.d[0][1];
+  if (r?.f?.length) return r.f[0][0];
+  return '';
 }

@@ -2,7 +2,7 @@
 // Data files (data/…) are cached by js/data.js in a versioned cache; here they only
 // fall back to that cache when the network is unavailable.
 // Bump SHELL_VERSION when shipping app changes so old shells are cleared.
-const SHELL_VERSION = 'shell-2026-10-31a';
+const SHELL_VERSION = 'shell-2026-10-31b';
 const SHELL = [
   './',
   'index.html',
@@ -16,10 +16,15 @@ const SHELL = [
   'js/text.js',
   'js/dom.js',
   'js/entry.js',
-  'js/abbr.js',
+  'js/ui.js',
+  'js/wordlist.js',
   'js/squares.js',
   'js/viewer.js',
   'js/search-worker.js',
+  'js/modules/dictionary.js',
+  'js/modules/thesaurus.js',
+  'js/modules/abbreviations.js',
+  'js/modules/solve.js',
   'fonts/fraunces-normal-latin.woff2',
   'fonts/fraunces-normal-latin-ext.woff2',
   'fonts/fraunces-italic-latin.woff2',
@@ -70,19 +75,20 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // app shell: network first so updates show straight away, cache when offline or slow
+  // app shell: answer from the cache at once (fast start, works offline) and refresh it
+  // in the background. A new SHELL_VERSION installs a fresh shell and the page offers a reload.
   event.respondWith((async () => {
     const cache = await caches.open(SHELL_VERSION);
+    const key = req.mode === 'navigate' ? './' : req;
+    const hit = await cache.match(key, { ignoreSearch: req.mode === 'navigate' });
     const network = fetch(req).then(res => {
-      if (res.ok) cache.put(req.mode === 'navigate' ? './' : req, res.clone());
+      if (res.ok) cache.put(key, res.clone());
       return res;
     });
-    try {
-      return await withTimeout(network, NETWORK_TIMEOUT);
-    } catch {
-      const hit = await cache.match(req.mode === 'navigate' ? './' : req, { ignoreSearch: req.mode === 'navigate' });
-      if (hit) return hit;
-      return network;
+    if (hit) {
+      event.waitUntil(network.catch(() => {}));
+      return hit;
     }
+    return withTimeout(network, NETWORK_TIMEOUT * 4);
   })());
 });

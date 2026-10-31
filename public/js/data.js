@@ -34,24 +34,41 @@ async function cachedFetch(file) {
   return res;
 }
 
-async function loadManifest() {
+async function fetchManifest() {
   const u = url('manifest.json');
-  try {
-    const res = await fetch(u, { cache: 'no-cache' });
-    if (!res.ok) throw new Error(res.status);
-    const m = await res.clone().json();
-    if (hasCaches) await (await caches.open(CACHE_PREFIX + m.version)).put(u, res);
-    return m;
-  } catch (err) {
-    // offline: use the newest cached manifest
-    if (!hasCaches) throw err;
-    const names = (await caches.keys()).filter(n => n.startsWith(CACHE_PREFIX)).sort().reverse();
-    for (const n of names) {
-      const hit = await (await caches.open(n)).match(u);
-      if (hit) return hit.json();
-    }
-    throw err;
+  const res = await fetch(u, { cache: 'no-cache' });
+  if (!res.ok) throw new Error(`Could not load manifest.json (${res.status})`);
+  const m = await res.clone().json();
+  if (hasCaches) await (await caches.open(CACHE_PREFIX + m.version)).put(u, res);
+  return m;
+}
+
+/** The newest cached version whose core files are all present, or null. */
+async function cachedManifest() {
+  if (!hasCaches) return null;
+  const names = (await caches.keys()).filter(n => n.startsWith(CACHE_PREFIX)).sort().reverse();
+  for (const n of names) {
+    const c = await caches.open(n);
+    const hit = await c.match(url('manifest.json'));
+    if (!hit) continue;
+    const m = await hit.json();
+    const core = await Promise.all(m.core.map(f => c.match(url(f.file))));
+    if (core.every(Boolean)) return m;
   }
+  return null;
+}
+
+/** In the background: if the server has newer data, download its core files so the next start uses it. */
+async function checkForNewData(current) {
+  try {
+    const m = await fetchManifest();
+    if (m.version === current) return;
+    const c = await caches.open(CACHE_PREFIX + m.version);
+    for (const f of m.core) {
+      const res = await fetch(url(f.file));
+      if (res.ok) await c.put(url(f.file), res);
+    }
+  } catch { /* offline: try again next time */ }
 }
 
 function parseAbbreviations(text) {
@@ -66,16 +83,20 @@ function parseAbbreviations(text) {
 
 /** Load the core files. Returns { version, wordsText, abbreviations }. */
 export async function loadCore() {
-  manifest = await loadManifest();
+  // start from the cache when we can, so start-up never waits for the network
+  manifest = await cachedManifest();
+  const fromCache = !!manifest;
+  if (!manifest) manifest = await fetchManifest();
   cacheName = CACHE_PREFIX + manifest.version;
   const [wordsRes, abbrRes] = await Promise.all([cachedFetch('words.tsv'), cachedFetch('abbreviations.tsv')]);
   const [wordsText, abbrText] = await Promise.all([wordsRes.text(), abbrRes.text()]);
-  // the new version loaded, so older data caches can go
   if (hasCaches) {
+    // versions older than the one in use can go (a newer one may be downloading)
     for (const n of await caches.keys()) {
-      if (n.startsWith(CACHE_PREFIX) && n !== cacheName) caches.delete(n);
+      if (n.startsWith(CACHE_PREFIX) && n < cacheName) caches.delete(n);
     }
   }
+  if (fromCache) checkForNewData(manifest.version);
   return { version: manifest.version, wordsText, abbreviations: parseAbbreviations(abbrText) };
 }
 
