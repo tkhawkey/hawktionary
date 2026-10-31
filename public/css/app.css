@@ -478,6 +478,26 @@ a { color: inherit; }
 .thes-title { display: flex; align-items: baseline; gap: var(--space-3); }
 .thes-word { margin: 0; font: 600 clamp(2rem, 7vw, 2.8rem)/1.05 var(--font-serif); font-variation-settings: 'opsz' 144; letter-spacing: -.015em; color: var(--ink); }
 .thes-gloss { margin: var(--space-1) 0 var(--space-4); color: var(--muted); font: italic 400 var(--text-md) var(--font-serif); }
+.meanings { padding: 0 var(--gutter); }
+.meanings:empty { display: none; }
+.meaning-row { display: flex; flex-wrap: wrap; gap: 6px; margin: var(--space-2) 0 var(--space-1); }
+.meaning {
+  display: inline-flex; align-items: baseline; gap: 5px; min-height: 34px; padding: 4px var(--space-3);
+  border: 1px solid var(--rule); border-radius: var(--radius); background: var(--page);
+  font-size: var(--text-sm); color: var(--ink-2); text-align: left; max-width: 100%;
+  transition: border-color var(--dur-fast), color var(--dur-fast), background var(--dur-fast);
+}
+.meaning:hover { border-color: var(--mod); }
+.meaning[aria-pressed="true"] { border-color: var(--mod); color: var(--ink); background: color-mix(in srgb, var(--mod) 9%, var(--page)); }
+.m-pos { font: italic 500 var(--text-sm) var(--font-serif); color: var(--mod); }
+.m-all { font-weight: 600; }
+.m-n { font-size: var(--text-xs); color: var(--muted); font-variant-numeric: tabular-nums; }
+.meaning.more { border-style: dashed; color: var(--muted); }
+.meaning-gloss {
+  margin: var(--space-3) 0 0; padding-left: var(--space-3); border-left: 2px solid var(--mod);
+  font: italic 400 var(--text-md) var(--font-serif); color: var(--ink-2);
+  animation: fade var(--dur-med) var(--ease-out);
+}
 .thes-group { margin: var(--space-5) 0; }
 .thes-group .sec-head .count { margin-left: auto; }
 .fit-count { font-size: var(--text-sm); color: var(--muted); margin: var(--space-3) 0 0; }
