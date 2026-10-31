@@ -4,25 +4,25 @@
 
 :root {
   /* Paper and ink: light */
-  --paper: #F3EDE1;          /* the desk / page background */
-  --page: #FBF7EF;           /* a printed page or card */
-  --ink: #201B15;
-  --ink-2: #3A332A;          /* body text, a touch softer than headings */
-  --muted: #625A4F;
-  --faint: #736A5F;          /* rare words; still 4.5:1 on paper */
-  --rule: #D8CDB9;
-  --rule-soft: #E8DFCF;
-  --shadow: 0 1px 1px rgba(60, 40, 10, .05), 0 6px 22px rgba(60, 40, 10, .08);
-  --shadow-lift: 0 2px 4px rgba(60, 40, 10, .08), 0 14px 36px rgba(60, 40, 10, .14);
-  --scrim: rgba(32, 27, 21, .34);
-  --grain-opacity: .05;      /* paper texture; 0 turns it off */
+  --paper: #F7F4EE;          /* the desk / page background */
+  --page: #FFFDF9;           /* a printed page or card */
+  --ink: #191719;
+  --ink-2: #36333A;          /* body text, a touch softer than headings */
+  --muted: #5D5A62;
+  --faint: #6E6A73;          /* rare words; still 4.5:1 on paper */
+  --rule: #E1DBD0;
+  --rule-soft: #EEE9E0;
+  --shadow: 0 1px 1px rgba(40, 30, 20, .04), 0 6px 20px rgba(40, 30, 20, .07);
+  --shadow-lift: 0 2px 4px rgba(40, 30, 20, .07), 0 14px 34px rgba(40, 30, 20, .12);
+  --scrim: rgba(25, 23, 25, .32);
+  --grain-opacity: .03;      /* paper texture; 0 turns it off */
 
   /* One ink per module */
-  --ink-dictionary: #7A1F2B;   /* oxblood */
-  --ink-thesaurus: #1F3F73;    /* deep blue */
-  --ink-abbr: #1D5A3E;         /* bottle green */
-  --ink-solve: #B0302A;        /* crossword red */
-  --gold: #9A7428;             /* fine rules and ornaments */
+  --ink-dictionary: #AE2340;   /* oxblood */
+  --ink-thesaurus: #2456C6;    /* deep blue */
+  --ink-abbr: #0B7A5C;         /* bottle green */
+  --ink-solve: #C43B22;        /* crossword red */
+  --gold: #C0912E;             /* fine rules and ornaments */
 
   /* Word strength by frequency band: same size, different weight and colour */
   --b1-weight: 650;  --b1-color: var(--ink);
@@ -31,18 +31,22 @@
   --b4-weight: 400;  --b4-color: var(--muted);   /* italic */
   --b5-weight: 380;  --b5-color: var(--faint);   /* italic */
 
+  /* Abbreviations: 'lowercase', or 'none' to show them as stored (capitals) */
+  --abbr-case: lowercase;
+  --abbr-tracking: .02em;    /* use about .06em for capitals */
+
   /* Letterpress type blocks (anagram letters) */
-  --block-bg: #EDE3CF;
-  --block-edge: #C9B998;
-  --block-ink: #2A231B;
+  --block-bg: #F4EDDF;
+  --block-edge: #D8C9A8;
+  --block-ink: #221F1C;
   --block-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), inset 0 -2px 0 rgba(90, 64, 20, .14), 0 1px 2px rgba(60, 40, 10, .22);
   --block-press: inset 0 1px 3px rgba(90, 64, 20, .3);
 
   /* Crossword grid cells (pattern slot and answers) */
-  --cell-bg: #FFFDF8;
-  --cell-border: #201B15;
-  --cell-given: #201B15;     /* letters you typed */
-  --cell-tried: #B0302A;     /* letters a candidate fills in */
+  --cell-bg: #FFFDF9;
+  --cell-border: #191719;
+  --cell-given: #191719;     /* letters you typed */
+  --cell-tried: #C43B22;     /* letters a candidate fills in */
 
   /* Type */
   --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
@@ -99,61 +103,61 @@
 
 /* Paper and ink: dark (charcoal desk, cream type, same ink families brightened) */
 :root[data-theme="dark"] {
-  --paper: #171513;
-  --page: #211E1A;
-  --ink: #EFE7D7;
-  --ink-2: #DCD3C2;
-  --muted: #ADA493;
-  --faint: #8F8676;
-  --rule: #3B362F;
-  --rule-soft: #2C2824;
+  --paper: #151517;
+  --page: #1F1F22;
+  --ink: #F2EFE9;
+  --ink-2: #DAD6D0;
+  --muted: #A8A5AD;
+  --faint: #8D8A94;
+  --rule: #323338;
+  --rule-soft: #26272B;
   --shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 8px 26px rgba(0, 0, 0, .35);
   --shadow-lift: 0 2px 4px rgba(0, 0, 0, .35), 0 16px 40px rgba(0, 0, 0, .5);
   --scrim: rgba(0, 0, 0, .55);
-  --grain-opacity: .07;
-  --ink-dictionary: #E08A92;
-  --ink-thesaurus: #93B3E8;
-  --ink-abbr: #7DC6A2;
-  --ink-solve: #EC6D61;
-  --gold: #CDA75A;
-  --block-bg: #3A332A;
-  --block-edge: #574D3F;
-  --block-ink: #F3EADA;
+  --grain-opacity: .045;
+  --ink-dictionary: #FF7C95;
+  --ink-thesaurus: #82A9FF;
+  --ink-abbr: #4BD4A5;
+  --ink-solve: #FF8060;
+  --gold: #E5BB5E;
+  --block-bg: #35332F;
+  --block-edge: #4F4A41;
+  --block-ink: #F5EEE2;
   --block-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), inset 0 -2px 0 rgba(0, 0, 0, .35), 0 1px 2px rgba(0, 0, 0, .5);
   --block-press: inset 0 1px 3px rgba(0, 0, 0, .6);
-  --cell-bg: #262220;
-  --cell-border: #D9CFBD;
-  --cell-given: #EFE7D7;
-  --cell-tried: #EC6D61;
+  --cell-bg: #1F1F22;
+  --cell-border: #D9D5CD;
+  --cell-given: #F2EFE9;
+  --cell-tried: #FF8060;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #171513;
-    --page: #211E1A;
-    --ink: #EFE7D7;
-    --ink-2: #DCD3C2;
-    --muted: #ADA493;
-    --faint: #8F8676;
-    --rule: #3B362F;
-    --rule-soft: #2C2824;
+    --paper: #151517;
+    --page: #1F1F22;
+    --ink: #F2EFE9;
+    --ink-2: #DAD6D0;
+    --muted: #A8A5AD;
+    --faint: #8D8A94;
+    --rule: #323338;
+    --rule-soft: #26272B;
     --shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 8px 26px rgba(0, 0, 0, .35);
     --shadow-lift: 0 2px 4px rgba(0, 0, 0, .35), 0 16px 40px rgba(0, 0, 0, .5);
     --scrim: rgba(0, 0, 0, .55);
-    --grain-opacity: .07;
-    --ink-dictionary: #E08A92;
-    --ink-thesaurus: #93B3E8;
-    --ink-abbr: #7DC6A2;
-    --ink-solve: #EC6D61;
-    --gold: #CDA75A;
-    --block-bg: #3A332A;
-    --block-edge: #574D3F;
-    --block-ink: #F3EADA;
+    --grain-opacity: .045;
+    --ink-dictionary: #FF7C95;
+    --ink-thesaurus: #82A9FF;
+    --ink-abbr: #4BD4A5;
+    --ink-solve: #FF8060;
+    --gold: #E5BB5E;
+    --block-bg: #35332F;
+    --block-edge: #4F4A41;
+    --block-ink: #F5EEE2;
     --block-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), inset 0 -2px 0 rgba(0, 0, 0, .35), 0 1px 2px rgba(0, 0, 0, .5);
     --block-press: inset 0 1px 3px rgba(0, 0, 0, .6);
-    --cell-bg: #262220;
-    --cell-border: #D9CFBD;
-    --cell-given: #EFE7D7;
-    --cell-tried: #EC6D61;
+    --cell-bg: #1F1F22;
+    --cell-border: #D9D5CD;
+    --cell-given: #F2EFE9;
+    --cell-tried: #FF8060;
   }
 }
 
