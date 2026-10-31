@@ -164,6 +164,8 @@ document.addEventListener('pointerover', (e) => {
   if (e.target.closest('#popover')) { clearTimeout(hideTimer); return; }
   const el = e.target.closest('[data-w]');
   if (!el || el === hoverEl || el.closest('[data-no-preview]')) return;
+  // moving straight from one word to the next: cancel the pending hide, or it would cancel this one too
+  clearTimeout(hideTimer);
   clearTimeout(hoverTimer);
   hoverEl = el;
   const delay = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hover-delay')) || 300;

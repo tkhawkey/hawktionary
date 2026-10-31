@@ -94,7 +94,7 @@ function defsBlock(d, { limit = Infinity, lead = true } = {}) {
     for (const [gloss, src] of list) {
       if (shown >= limit) break;
       const cls = ['gloss', src === 'n' ? 'wn' : '', lead && shown === 0 ? 'lead' : ''].filter(Boolean).join(' ');
-      ol.append(h('li', { class: cls, title: SOURCE[src] || '', html: linkify(gloss) }));
+      ol.append(h('li', { class: cls, 'data-source': SOURCE[src] || '', html: linkify(gloss) }));
       shown++;
     }
     frag.append(ol);
