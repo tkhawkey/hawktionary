@@ -1,0 +1,1688 @@
+{
+ "version": "2026-10-31.1452",
+ "counts": {
+  "words": 240732,
+  "entries_with_data": 215333,
+  "abbreviations": 5189
+ },
+ "core": [
+  {
+   "file": "words.tsv",
+   "bytes": 4439657
+  },
+  {
+   "file": "abbreviations.tsv",
+   "bytes": 129978
+  }
+ ],
+ "shards": [
+  {
+   "file": "entries/a_.json",
+   "bytes": 1947
+  },
+  {
+   "file": "entries/aa.json",
+   "bytes": 4753
+  },
+  {
+   "file": "entries/ab.json",
+   "bytes": 283277
+  },
+  {
+   "file": "entries/ac.json",
+   "bytes": 360315
+  },
+  {
+   "file": "entries/ad.json",
+   "bytes": 276524
+  },
+  {
+   "file": "entries/ae.json",
+   "bytes": 52169
+  },
+  {
+   "file": "entries/af.json",
+   "bytes": 115204
+  },
+  {
+   "file": "entries/ag.json",
+   "bytes": 152536
+  },
+  {
+   "file": "entries/ah.json",
+   "bytes": 7493
+  },
+  {
+   "file": "entries/ai.json",
+   "bytes": 78468
+  },
+  {
+   "file": "entries/aj.json",
+   "bytes": 1751
+  },
+  {
+   "file": "entries/ak.json",
+   "bytes": 4894
+  },
+  {
+   "file": "entries/al.json",
+   "bytes": 356929
+  },
+  {
+   "file": "entries/am.json",
+   "bytes": 198754
+  },
+  {
+   "file": "entries/an.json",
+   "bytes": 500554
+  },
+  {
+   "file": "entries/ao.json",
+   "bytes": 2110
+  },
+  {
+   "file": "entries/ap.json",
+   "bytes": 274940
+  },
+  {
+   "file": "entries/aq.json",
+   "bytes": 14672
+  },
+  {
+   "file": "entries/ar.json",
+   "bytes": 371669
+  },
+  {
+   "file": "entries/as.json",
+   "bytes": 309963
+  },
+  {
+   "file": "entries/at.json",
+   "bytes": 188079
+  },
+  {
+   "file": "entries/au.json",
+   "bytes": 189802
+  },
+  {
+   "file": "entries/av.json",
+   "bytes": 61675
+  },
+  {
+   "file": "entries/aw.json",
+   "bytes": 38643
+  },
+  {
+   "file": "entries/ax.json",
+   "bytes": 16237
+  },
+  {
+   "file": "entries/ay.json",
+   "bytes": 5961
+  },
+  {
+   "file": "entries/az.json",
+   "bytes": 13654
+  },
+  {
+   "file": "entries/b_.json",
+   "bytes": 1907
+  },
+  {
+   "file": "entries/ba.json",
+   "bytes": 772257
+  },
+  {
+   "file": "entries/bd.json",
+   "bytes": 204
+  },
+  {
+   "file": "entries/be.json",
+   "bytes": 604906
+  },
+  {
+   "file": "entries/bh.json",
+   "bytes": 3169
+  },
+  {
+   "file": "entries/bi.json",
+   "bytes": 317357
+  },
+  {
+   "file": "entries/bl.json",
+   "bytes": 468642
+  },
+  {
+   "file": "entries/bm.json",
+   "bytes": 526
+  },
+  {
+   "file": "entries/bo.json",
+   "bytes": 532279
+  },
+  {
+   "file": "entries/br.json",
+   "bytes": 553459
+  },
+  {
+   "file": "entries/bs.json",
+   "bytes": 328
+  },
+  {
+   "file": "entries/bu.json",
+   "bytes": 452728
+  },
+  {
+   "file": "entries/bw.json",
+   "bytes": 105
+  },
+  {
+   "file": "entries/by.json",
+   "bytes": 29020
+  },
+  {
+   "file": "entries/c_.json",
+   "bytes": 2067
+  },
+  {
+   "file": "entries/ca.json",
+   "bytes": 1108073
+  },
+  {
+   "file": "entries/ce.json",
+   "bytes": 200897
+  },
+  {
+   "file": "entries/ch.json",
+   "bytes": 839382
+  },
+  {
+   "file": "entries/ci.json",
+   "bytes": 181614
+  },
+  {
+   "file": "entries/cl.json",
+   "bytes": 440606
+  },
+  {
+   "file": "entries/cn.json",
+   "bytes": 1139
+  },
+  {
+   "file": "entries/co.json",
+   "bytes": 2499864
+  },
+  {
+   "file": "entries/cr.json",
+   "bytes": 583003
+  },
+  {
+   "file": "entries/cs.json",
+   "bytes": 695
+  },
+  {
+   "file": "entries/ct.json",
+   "bytes": 1449
+  },
+  {
+   "file": "entries/cu.json",
+   "bytes": 281473
+  },
+  {
+   "file": "entries/cw.json",
+   "bytes": 974
+  },
+  {
+   "file": "entries/cy.json",
+   "bytes": 79710
+  },
+  {
+   "file": "entries/cz.json",
+   "bytes": 4745
+  },
+  {
+   "file": "entries/d_.json",
+   "bytes": 1428
+  },
+  {
+   "file": "entries/da.json",
+   "bytes": 285457
+  },
+  {
+   "file": "entries/dd.json",
+   "bytes": 313
+  },
+  {
+   "file": "entries/de.json",
+   "bytes": 1374462
+  },
+  {
+   "file": "entries/dh.json",
+   "bytes": 4004
+  },
+  {
+   "file": "entries/di.json",
+   "bytes": 1319654
+  },
+  {
+   "file": "entries/dj.json",
+   "bytes": 1779
+  },
+  {
+   "file": "entries/dn.json",
+   "bytes": 271
+  },
+  {
+   "file": "entries/do.json",
+   "bytes": 444077
+  },
+  {
+   "file": "entries/dr.json",
+   "bytes": 337738
+  },
+  {
+   "file": "entries/ds.json",
+   "bytes": 297
+  },
+  {
+   "file": "entries/du.json",
+   "bytes": 207524
+  },
+  {
+   "file": "entries/dv.json",
+   "bytes": 1142
+  },
+  {
+   "file": "entries/dw.json",
+   "bytes": 13702
+  },
+  {
+   "file": "entries/dy.json",
+   "bytes": 46352
+  },
+  {
+   "file": "entries/dz.json",
+   "bytes": 539
+  },
+  {
+   "file": "entries/e_.json",
+   "bytes": 2074
+  },
+  {
+   "file": "entries/ea.json",
+   "bytes": 114692
+  },
+  {
+   "file": "entries/eb.json",
+   "bytes": 15451
+  },
+  {
+   "file": "entries/ec.json",
+   "bytes": 81817
+  },
+  {
+   "file": "entries/ed.json",
+   "bytes": 55148
+  },
+  {
+   "file": "entries/ee.json",
+   "bytes": 7758
+  },
+  {
+   "file": "entries/ef.json",
+   "bytes": 53010
+  },
+  {
+   "file": "entries/eg.json",
+   "bytes": 35034
+  },
+  {
+   "file": "entries/eh.json",
+   "bytes": 1727
+  },
+  {
+   "file": "entries/ei.json",
+   "bytes": 17358
+  },
+  {
+   "file": "entries/ej.json",
+   "bytes": 9146
+  },
+  {
+   "file": "entries/ek.json",
+   "bytes": 1516
+  },
+  {
+   "file": "entries/el.json",
+   "bytes": 218885
+  },
+  {
+   "file": "entries/em.json",
+   "bytes": 219445
+  },
+  {
+   "file": "entries/en.json",
+   "bytes": 488834
+  },
+  {
+   "file": "entries/eo.json",
+   "bytes": 5294
+  },
+  {
+   "file": "entries/ep.json",
+   "bytes": 105534
+  },
+  {
+   "file": "entries/eq.json",
+   "bytes": 67726
+  },
+  {
+   "file": "entries/er.json",
+   "bytes": 92160
+  },
+  {
+   "file": "entries/es.json",
+   "bytes": 122283
+  },
+  {
+   "file": "entries/et.json",
+   "bytes": 63296
+  },
+  {
+   "file": "entries/eu.json",
+   "bytes": 67560
+  },
+  {
+   "file": "entries/ev.json",
+   "bytes": 111516
+  },
+  {
+   "file": "entries/ew.json",
+   "bytes": 1747
+  },
+  {
+   "file": "entries/ex.json",
+   "bytes": 595192
+  },
+  {
+   "file": "entries/ey.json",
+   "bytes": 21907
+  },
+  {
+   "file": "entries/ez.json",
+   "bytes": 882
+  },
+  {
+   "file": "entries/f_.json",
+   "bytes": 2049
+  },
+  {
+   "file": "entries/fa.json",
+   "bytes": 506976
+  },
+  {
+   "file": "entries/fe.json",
+   "bytes": 279190
+  },
+  {
+   "file": "entries/ff.json",
+   "bytes": 98
+  },
+  {
+   "file": "entries/fh.json",
+   "bytes": 122
+  },
+  {
+   "file": "entries/fi.json",
+   "bytes": 443565
+  },
+  {
+   "file": "entries/fj.json",
+   "bytes": 476
+  },
+  {
+   "file": "entries/fl.json",
+   "bytes": 507410
+  },
+  {
+   "file": "entries/fn.json",
+   "bytes": 135
+  },
+  {
+   "file": "entries/fo.json",
+   "bytes": 535785
+  },
+  {
+   "file": "entries/fr.json",
+   "bytes": 392834
+  },
+  {
+   "file": "entries/fs.json",
+   "bytes": 333
+  },
+  {
+   "file": "entries/fu.json",
+   "bytes": 241632
+  },
+  {
+   "file": "entries/fy.json",
+   "bytes": 1247
+  },
+  {
+   "file": "entries/g_.json",
+   "bytes": 2760
+  },
+  {
+   "file": "entries/ga.json",
+   "bytes": 377672
+  },
+  {
+   "file": "entries/gc.json",
+   "bytes": 57
+  },
+  {
+   "file": "entries/gd.json",
+   "bytes": 498
+  },
+  {
+   "file": "entries/ge.json",
+   "bytes": 282615
+  },
+  {
+   "file": "entries/gh.json",
+   "bytes": 20992
+  },
+  {
+   "file": "entries/gi.json",
+   "bytes": 146561
+  },
+  {
+   "file": "entries/gl.json",
+   "bytes": 215192
+  },
+  {
+   "file": "entries/gm.json",
+   "bytes": 475
+  },
+  {
+   "file": "entries/gn.json",
+   "bytes": 19913
+  },
+  {
+   "file": "entries/go.json",
+   "bytes": 309012
+  },
+  {
+   "file": "entries/gr.json",
+   "bytes": 584775
+  },
+  {
+   "file": "entries/gs.json",
+   "bytes": 790
+  },
+  {
+   "file": "entries/gu.json",
+   "bytes": 204984
+  },
+  {
+   "file": "entries/gw.json",
+   "bytes": 759
+  },
+  {
+   "file": "entries/gy.json",
+   "bytes": 34342
+  },
+  {
+   "file": "entries/h_.json",
+   "bytes": 1724
+  },
+  {
+   "file": "entries/ha.json",
+   "bytes": 617897
+  },
+  {
+   "file": "entries/hb.json",
+   "bytes": 321
+  },
+  {
+   "file": "entries/he.json",
+   "bytes": 499792
+  },
+  {
+   "file": "entries/hi.json",
+   "bytes": 241261
+  },
+  {
+   "file": "entries/ho.json",
+   "bytes": 570583
+  },
+  {
+   "file": "entries/hu.json",
+   "bytes": 214034
+  },
+  {
+   "file": "entries/hw.json",
+   "bytes": 118
+  },
+  {
+   "file": "entries/hy.json",
+   "bytes": 189536
+  },
+  {
+   "file": "entries/i_.json",
+   "bytes": 2189
+  },
+  {
+   "file": "entries/ia.json",
+   "bytes": 4092
+  },
+  {
+   "file": "entries/ib.json",
+   "bytes": 5251
+  },
+  {
+   "file": "entries/ic.json",
+   "bytes": 43713
+  },
+  {
+   "file": "entries/id.json",
+   "bytes": 84652
+  },
+  {
+   "file": "entries/if.json",
+   "bytes": 3143
+  },
+  {
+   "file": "entries/ig.json",
+   "bytes": 23046
+  },
+  {
+   "file": "entries/ih.json",
+   "bytes": 296
+  },
+  {
+   "file": "entries/ij.json",
+   "bytes": 493
+  },
+  {
+   "file": "entries/ik.json",
+   "bytes": 1263
+  },
+  {
+   "file": "entries/il.json",
+   "bytes": 76420
+  },
+  {
+   "file": "entries/im.json",
+   "bytes": 418700
+  },
+  {
+   "file": "entries/in.json",
+   "bytes": 1731213
+  },
+  {
+   "file": "entries/io.json",
+   "bytes": 18130
+  },
+  {
+   "file": "entries/ip.json",
+   "bytes": 3790
+  },
+  {
+   "file": "entries/iq.json",
+   "bytes": 82
+  },
+  {
+   "file": "entries/ir.json",
+   "bytes": 134781
+  },
+  {
+   "file": "entries/is.json",
+   "bytes": 83165
+  },
+  {
+   "file": "entries/it.json",
+   "bytes": 36345
+  },
+  {
+   "file": "entries/iv.json",
+   "bytes": 6193
+  },
+  {
+   "file": "entries/iw.json",
+   "bytes": 647
+  },
+  {
+   "file": "entries/ix.json",
+   "bytes": 745
+  },
+  {
+   "file": "entries/iy.json",
+   "bytes": 131
+  },
+  {
+   "file": "entries/iz.json",
+   "bytes": 1458
+  },
+  {
+   "file": "entries/j_.json",
+   "bytes": 1163
+  },
+  {
+   "file": "entries/ja.json",
+   "bytes": 165696
+  },
+  {
+   "file": "entries/je.json",
+   "bytes": 89568
+  },
+  {
+   "file": "entries/jh.json",
+   "bytes": 192
+  },
+  {
+   "file": "entries/ji.json",
+   "bytes": 47423
+  },
+  {
+   "file": "entries/jn.json",
+   "bytes": 217
+  },
+  {
+   "file": "entries/jo.json",
+   "bytes": 139811
+  },
+  {
+   "file": "entries/ju.json",
+   "bytes": 168684
+  },
+  {
+   "file": "entries/jy.json",
+   "bytes": 311
+  },
+  {
+   "file": "entries/k_.json",
+   "bytes": 2229
+  },
+  {
+   "file": "entries/ka.json",
+   "bytes": 79055
+  },
+  {
+   "file": "entries/ke.json",
+   "bytes": 114797
+  },
+  {
+   "file": "entries/kg.json",
+   "bytes": 253
+  },
+  {
+   "file": "entries/kh.json",
+   "bytes": 12149
+  },
+  {
+   "file": "entries/ki.json",
+   "bytes": 185850
+  },
+  {
+   "file": "entries/kl.json",
+   "bytes": 10432
+  },
+  {
+   "file": "entries/kn.json",
+   "bytes": 104706
+  },
+  {
+   "file": "entries/ko.json",
+   "bytes": 32141
+  },
+  {
+   "file": "entries/kr.json",
+   "bytes": 12189
+  },
+  {
+   "file": "entries/ks.json",
+   "bytes": 439
+  },
+  {
+   "file": "entries/ku.json",
+   "bytes": 14435
+  },
+  {
+   "file": "entries/kv.json",
+   "bytes": 1803
+  },
+  {
+   "file": "entries/kw.json",
+   "bytes": 1469
+  },
+  {
+   "file": "entries/ky.json",
+   "bytes": 6480
+  },
+  {
+   "file": "entries/l_.json",
+   "bytes": 2423
+  },
+  {
+   "file": "entries/la.json",
+   "bytes": 538239
+  },
+  {
+   "file": "entries/ld.json",
+   "bytes": 340
+  },
+  {
+   "file": "entries/le.json",
+   "bytes": 400539
+  },
+  {
+   "file": "entries/lh.json",
+   "bytes": 749
+  },
+  {
+   "file": "entries/li.json",
+   "bytes": 526753
+  },
+  {
+   "file": "entries/lj.json",
+   "bytes": 146
+  },
+  {
+   "file": "entries/ll.json",
+   "bytes": 2958
+  },
+  {
+   "file": "entries/lo.json",
+   "bytes": 416433
+  },
+  {
+   "file": "entries/lp.json",
+   "bytes": 422
+  },
+  {
+   "file": "entries/lu.json",
+   "bytes": 174559
+  },
+  {
+   "file": "entries/lv.json",
+   "bytes": 49
+  },
+  {
+   "file": "entries/ly.json",
+   "bytes": 37147
+  },
+  {
+   "file": "entries/m_.json",
+   "bytes": 1401
+  },
+  {
+   "file": "entries/ma.json",
+   "bytes": 1046315
+  },
+  {
+   "file": "entries/mb.json",
+   "bytes": 631
+  },
+  {
+   "file": "entries/mc.json",
+   "bytes": 1993
+  },
+  {
+   "file": "entries/me.json",
+   "bytes": 589073
+  },
+  {
+   "file": "entries/mg.json",
+   "bytes": 106
+  },
+  {
+   "file": "entries/mh.json",
+   "bytes": 496
+  },
+  {
+   "file": "entries/mi.json",
+   "bytes": 647127
+  },
+  {
+   "file": "entries/mj.json",
+   "bytes": 195
+  },
+  {
+   "file": "entries/mn.json",
+   "bytes": 2831
+  },
+  {
+   "file": "entries/mo.json",
+   "bytes": 729486
+  },
+  {
+   "file": "entries/mp.json",
+   "bytes": 98
+  },
+  {
+   "file": "entries/mr.json",
+   "bytes": 1851
+  },
+  {
+   "file": "entries/ms.json",
+   "bytes": 1749
+  },
+  {
+   "file": "entries/mu.json",
+   "bytes": 315339
+  },
+  {
+   "file": "entries/mv.json",
+   "bytes": 184
+  },
+  {
+   "file": "entries/my.json",
+   "bytes": 66342
+  },
+  {
+   "file": "entries/mz.json",
+   "bytes": 395
+  },
+  {
+   "file": "entries/n_.json",
+   "bytes": 1221
+  },
+  {
+   "file": "entries/na.json",
+   "bytes": 242074
+  },
+  {
+   "file": "entries/nd.json",
+   "bytes": 120
+  },
+  {
+   "file": "entries/ne.json",
+   "bytes": 350459
+  },
+  {
+   "file": "entries/ng.json",
+   "bytes": 1175
+  },
+  {
+   "file": "entries/ni.json",
+   "bytes": 157874
+  },
+  {
+   "file": "entries/no.json",
+   "bytes": 324672
+  },
+  {
+   "file": "entries/nt.json",
+   "bytes": 370
+  },
+  {
+   "file": "entries/nu.json",
+   "bytes": 135261
+  },
+  {
+   "file": "entries/ny.json",
+   "bytes": 14384
+  },
+  {
+   "file": "entries/o_.json",
+   "bytes": 1925
+  },
+  {
+   "file": "entries/oa.json",
+   "bytes": 15117
+  },
+  {
+   "file": "entries/ob.json",
+   "bytes": 171680
+  },
+  {
+   "file": "entries/oc.json",
+   "bytes": 81241
+  },
+  {
+   "file": "entries/od.json",
+   "bytes": 38117
+  },
+  {
+   "file": "entries/oe.json",
+   "bytes": 9382
+  },
+  {
+   "file": "entries/of.json",
+   "bytes": 80934
+  },
+  {
+   "file": "entries/og.json",
+   "bytes": 5592
+  },
+  {
+   "file": "entries/oh.json",
+   "bytes": 4018
+  },
+  {
+   "file": "entries/oi.json",
+   "bytes": 17706
+  },
+  {
+   "file": "entries/oj.json",
+   "bytes": 357
+  },
+  {
+   "file": "entries/ok.json",
+   "bytes": 8787
+  },
+  {
+   "file": "entries/ol.json",
+   "bytes": 66606
+  },
+  {
+   "file": "entries/om.json",
+   "bytes": 35132
+  },
+  {
+   "file": "entries/on.json",
+   "bytes": 89425
+  },
+  {
+   "file": "entries/oo.json",
+   "bytes": 15250
+  },
+  {
+   "file": "entries/op.json",
+   "bytes": 152558
+  },
+  {
+   "file": "entries/or.json",
+   "bytes": 217886
+  },
+  {
+   "file": "entries/os.json",
+   "bytes": 56492
+  },
+  {
+   "file": "entries/ot.json",
+   "bytes": 17488
+  },
+  {
+   "file": "entries/ou.json",
+   "bytes": 212711
+  },
+  {
+   "file": "entries/ov.json",
+   "bytes": 297803
+  },
+  {
+   "file": "entries/ow.json",
+   "bytes": 11437
+  },
+  {
+   "file": "entries/ox.json",
+   "bytes": 25683
+  },
+  {
+   "file": "entries/oy.json",
+   "bytes": 3026
+  },
+  {
+   "file": "entries/oz.json",
+   "bytes": 5890
+  },
+  {
+   "file": "entries/p_.json",
+   "bytes": 1072
+  },
+  {
+   "file": "entries/pa.json",
+   "bytes": 981937
+  },
+  {
+   "file": "entries/pe.json",
+   "bytes": 772694
+  },
+  {
+   "file": "entries/pf.json",
+   "bytes": 466
+  },
+  {
+   "file": "entries/ph.json",
+   "bytes": 258177
+  },
+  {
+   "file": "entries/pi.json",
+   "bytes": 416751
+  },
+  {
+   "file": "entries/pl.json",
+   "bytes": 431662
+  },
+  {
+   "file": "entries/pn.json",
+   "bytes": 9370
+  },
+  {
+   "file": "entries/po.json",
+   "bytes": 697795
+  },
+  {
+   "file": "entries/pr.json",
+   "bytes": 1322174
+  },
+  {
+   "file": "entries/ps.json",
+   "bytes": 74064
+  },
+  {
+   "file": "entries/pt.json",
+   "bytes": 10943
+  },
+  {
+   "file": "entries/pu.json",
+   "bytes": 378779
+  },
+  {
+   "file": "entries/py.json",
+   "bytes": 57399
+  },
+  {
+   "file": "entries/pz.json",
+   "bytes": 64
+  },
+  {
+   "file": "entries/q_.json",
+   "bytes": 994
+  },
+  {
+   "file": "entries/qa.json",
+   "bytes": 3347
+  },
+  {
+   "file": "entries/qb.json",
+   "bytes": 192
+  },
+  {
+   "file": "entries/qc.json",
+   "bytes": 187
+  },
+  {
+   "file": "entries/qe.json",
+   "bytes": 115
+  },
+  {
+   "file": "entries/qf.json",
+   "bytes": 222
+  },
+  {
+   "file": "entries/qi.json",
+   "bytes": 1499
+  },
+  {
+   "file": "entries/qo.json",
+   "bytes": 504
+  },
+  {
+   "file": "entries/qs.json",
+   "bytes": 214
+  },
+  {
+   "file": "entries/qu.json",
+   "bytes": 341491
+  },
+  {
+   "file": "entries/qw.json",
+   "bytes": 429
+  },
+  {
+   "file": "entries/r_.json",
+   "bytes": 1244
+  },
+  {
+   "file": "entries/ra.json",
+   "bytes": 517928
+  },
+  {
+   "file": "entries/re.json",
+   "bytes": 1864169
+  },
+  {
+   "file": "entries/rh.json",
+   "bytes": 77607
+  },
+  {
+   "file": "entries/ri.json",
+   "bytes": 278214
+  },
+  {
+   "file": "entries/ro.json",
+   "bytes": 420469
+  },
+  {
+   "file": "entries/ru.json",
+   "bytes": 263317
+  },
+  {
+   "file": "entries/rw.json",
+   "bytes": 664
+  },
+  {
+   "file": "entries/ry.json",
+   "bytes": 2845
+  },
+  {
+   "file": "entries/s_.json",
+   "bytes": 1666
+  },
+  {
+   "file": "entries/sa.json",
+   "bytes": 585742
+  },
+  {
+   "file": "entries/sb.json",
+   "bytes": 332
+  },
+  {
+   "file": "entries/sc.json",
+   "bytes": 584144
+  },
+  {
+   "file": "entries/sd.json",
+   "bytes": 351
+  },
+  {
+   "file": "entries/se.json",
+   "bytes": 840354
+  },
+  {
+   "file": "entries/sf.json",
+   "bytes": 1289
+  },
+  {
+   "file": "entries/sg.json",
+   "bytes": 608
+  },
+  {
+   "file": "entries/sh.json",
+   "bytes": 628341
+  },
+  {
+   "file": "entries/si.json",
+   "bytes": 444165
+  },
+  {
+   "file": "entries/sj.json",
+   "bytes": 359
+  },
+  {
+   "file": "entries/sk.json",
+   "bytes": 140603
+  },
+  {
+   "file": "entries/sl.json",
+   "bytes": 325688
+  },
+  {
+   "file": "entries/sm.json",
+   "bytes": 145236
+  },
+  {
+   "file": "entries/sn.json",
+   "bytes": 179071
+  },
+  {
+   "file": "entries/so.json",
+   "bytes": 524823
+  },
+  {
+   "file": "entries/sp.json",
+   "bytes": 729874
+  },
+  {
+   "file": "entries/sq.json",
+   "bytes": 107039
+  },
+  {
+   "file": "entries/sr.json",
+   "bytes": 1133
+  },
+  {
+   "file": "entries/st.json",
+   "bytes": 1240856
+  },
+  {
+   "file": "entries/su.json",
+   "bytes": 866200
+  },
+  {
+   "file": "entries/sv.json",
+   "bytes": 2010
+  },
+  {
+   "file": "entries/sw.json",
+   "bytes": 227043
+  },
+  {
+   "file": "entries/sy.json",
+   "bytes": 199152
+  },
+  {
+   "file": "entries/sz.json",
+   "bytes": 289
+  },
+  {
+   "file": "entries/t_.json",
+   "bytes": 1264
+  },
+  {
+   "file": "entries/ta.json",
+   "bytes": 478131
+  },
+  {
+   "file": "entries/tb.json",
+   "bytes": 1611
+  },
+  {
+   "file": "entries/tc.json",
+   "bytes": 1233
+  },
+  {
+   "file": "entries/te.json",
+   "bytes": 502153
+  },
+  {
+   "file": "entries/th.json",
+   "bytes": 441581
+  },
+  {
+   "file": "entries/ti.json",
+   "bytes": 276328
+  },
+  {
+   "file": "entries/tj.json",
+   "bytes": 534
+  },
+  {
+   "file": "entries/tl.json",
+   "bytes": 490
+  },
+  {
+   "file": "entries/tm.json",
+   "bytes": 158
+  },
+  {
+   "file": "entries/to.json",
+   "bytes": 429486
+  },
+  {
+   "file": "entries/tp.json",
+   "bytes": 294
+  },
+  {
+   "file": "entries/tr.json",
+   "bytes": 864685
+  },
+  {
+   "file": "entries/ts.json",
+   "bytes": 6827
+  },
+  {
+   "file": "entries/tu.json",
+   "bytes": 212677
+  },
+  {
+   "file": "entries/tv.json",
+   "bytes": 463
+  },
+  {
+   "file": "entries/tw.json",
+   "bytes": 107525
+  },
+  {
+   "file": "entries/ty.json",
+   "bytes": 54343
+  },
+  {
+   "file": "entries/tz.json",
+   "bytes": 1380
+  },
+  {
+   "file": "entries/u_.json",
+   "bytes": 2078
+  },
+  {
+   "file": "entries/ua.json",
+   "bytes": 305
+  },
+  {
+   "file": "entries/ub.json",
+   "bytes": 5141
+  },
+  {
+   "file": "entries/uc.json",
+   "bytes": 133
+  },
+  {
+   "file": "entries/ud.json",
+   "bytes": 1697
+  },
+  {
+   "file": "entries/ue.json",
+   "bytes": 144
+  },
+  {
+   "file": "entries/uf.json",
+   "bytes": 983
+  },
+  {
+   "file": "entries/ug.json",
+   "bytes": 9013
+  },
+  {
+   "file": "entries/uh.json",
+   "bytes": 332
+  },
+  {
+   "file": "entries/ui.json",
+   "bytes": 804
+  },
+  {
+   "file": "entries/uj.json",
+   "bytes": 292
+  },
+  {
+   "file": "entries/uk.json",
+   "bytes": 2599
+  },
+  {
+   "file": "entries/ul.json",
+   "bytes": 29414
+  },
+  {
+   "file": "entries/um.json",
+   "bytes": 20000
+  },
+  {
+   "file": "entries/un.json",
+   "bytes": 1434053
+  },
+  {
+   "file": "entries/up.json",
+   "bytes": 134783
+  },
+  {
+   "file": "entries/ur.json",
+   "bytes": 50909
+  },
+  {
+   "file": "entries/us.json",
+   "bytes": 33750
+  },
+  {
+   "file": "entries/ut.json",
+   "bytes": 38248
+  },
+  {
+   "file": "entries/uv.json",
+   "bytes": 2179
+  },
+  {
+   "file": "entries/ux.json",
+   "bytes": 1688
+  },
+  {
+   "file": "entries/uz.json",
+   "bytes": 1538
+  },
+  {
+   "file": "entries/v_.json",
+   "bytes": 1473
+  },
+  {
+   "file": "entries/va.json",
+   "bytes": 253337
+  },
+  {
+   "file": "entries/vd.json",
+   "bytes": 147
+  },
+  {
+   "file": "entries/ve.json",
+   "bytes": 283677
+  },
+  {
+   "file": "entries/vi.json",
+   "bytes": 331074
+  },
+  {
+   "file": "entries/vl.json",
+   "bytes": 1554
+  },
+  {
+   "file": "entries/vn.json",
+   "bytes": 182
+  },
+  {
+   "file": "entries/vo.json",
+   "bytes": 143120
+  },
+  {
+   "file": "entries/vr.json",
+   "bytes": 1326
+  },
+  {
+   "file": "entries/vs.json",
+   "bytes": 419
+  },
+  {
+   "file": "entries/vu.json",
+   "bytes": 26784
+  },
+  {
+   "file": "entries/vy.json",
+   "bytes": 677
+  },
+  {
+   "file": "entries/w_.json",
+   "bytes": 1364
+  },
+  {
+   "file": "entries/wa.json",
+   "bytes": 428205
+  },
+  {
+   "file": "entries/we.json",
+   "bytes": 257087
+  },
+  {
+   "file": "entries/wh.json",
+   "bytes": 261398
+  },
+  {
+   "file": "entries/wi.json",
+   "bytes": 313122
+  },
+  {
+   "file": "entries/wo.json",
+   "bytes": 233703
+  },
+  {
+   "file": "entries/wr.json",
+   "bytes": 107183
+  },
+  {
+   "file": "entries/wu.json",
+   "bytes": 5720
+  },
+  {
+   "file": "entries/wy.json",
+   "bytes": 5225
+  },
+  {
+   "file": "entries/x_.json",
+   "bytes": 2476
+  },
+  {
+   "file": "entries/xa.json",
+   "bytes": 5395
+  },
+  {
+   "file": "entries/xc.json",
+   "bytes": 135
+  },
+  {
+   "file": "entries/xe.json",
+   "bytes": 14539
+  },
+  {
+   "file": "entries/xh.json",
+   "bytes": 653
+  },
+  {
+   "file": "entries/xi.json",
+   "bytes": 3624
+  },
+  {
+   "file": "entries/xm.json",
+   "bytes": 336
+  },
+  {
+   "file": "entries/xo.json",
+   "bytes": 189
+  },
+  {
+   "file": "entries/xr.json",
+   "bytes": 2991
+  },
+  {
+   "file": "entries/xu.json",
+   "bytes": 104
+  },
+  {
+   "file": "entries/xy.json",
+   "bytes": 6995
+  },
+  {
+   "file": "entries/y_.json",
+   "bytes": 1466
+  },
+  {
+   "file": "entries/ya.json",
+   "bytes": 50195
+  },
+  {
+   "file": "entries/yb.json",
+   "bytes": 136
+  },
+  {
+   "file": "entries/yc.json",
+   "bytes": 413
+  },
+  {
+   "file": "entries/ye.json",
+   "bytes": 58215
+  },
+  {
+   "file": "entries/yf.json",
+   "bytes": 162
+  },
+  {
+   "file": "entries/yg.json",
+   "bytes": 667
+  },
+  {
+   "file": "entries/yi.json",
+   "bytes": 12892
+  },
+  {
+   "file": "entries/yl.json",
+   "bytes": 750
+  },
+  {
+   "file": "entries/ym.json",
+   "bytes": 54
+  },
+  {
+   "file": "entries/yn.json",
+   "bytes": 152
+  },
+  {
+   "file": "entries/yo.json",
+   "bytes": 53296
+  },
+  {
+   "file": "entries/yp.json",
+   "bytes": 988
+  },
+  {
+   "file": "entries/yr.json",
+   "bytes": 300
+  },
+  {
+   "file": "entries/yt.json",
+   "bytes": 897
+  },
+  {
+   "file": "entries/yu.json",
+   "bytes": 13287
+  },
+  {
+   "file": "entries/yv.json",
+   "bytes": 249
+  },
+  {
+   "file": "entries/yw.json",
+   "bytes": 54
+  },
+  {
+   "file": "entries/z_.json",
+   "bytes": 509
+  },
+  {
+   "file": "entries/za.json",
+   "bytes": 20233
+  },
+  {
+   "file": "entries/zb.json",
+   "bytes": 159
+  },
+  {
+   "file": "entries/ze.json",
+   "bytes": 39100
+  },
+  {
+   "file": "entries/zh.json",
+   "bytes": 192
+  },
+  {
+   "file": "entries/zi.json",
+   "bytes": 33836
+  },
+  {
+   "file": "entries/zl.json",
+   "bytes": 180
+  },
+  {
+   "file": "entries/zo.json",
+   "bytes": 49068
+  },
+  {
+   "file": "entries/zu.json",
+   "bytes": 4733
+  },
+  {
+   "file": "entries/zw.json",
+   "bytes": 1195
+  },
+  {
+   "file": "entries/zy.json",
+   "bytes": 11858
+  }
+ ],
+ "shard_rule": "first two letters of the entry's letters-only form; one-letter words use '<letter>_'",
+ "record_keys": {
+  "d": "definitions: [part of speech, gloss, source w=Wiktionary n=WordNet]",
+  "f": "form-of pointers: [gloss, base word]  e.g. ['plural of ale', 'ale']",
+  "s": "synonyms (WordNet, then Wiktionary, then Moby)",
+  "t": "is a type of",
+  "k": "kinds of this"
+ }
+}

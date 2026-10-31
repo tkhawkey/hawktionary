@@ -1,0 +1,116 @@
+                        ----------------------------------------------------
+                        Ledger's Wordz - for busy cruciverbalists everywhere
+                        ----------------------------------------------------
+
+                    A word list searching tool for crossword solvers and setters
+
+                                                 By
+                                  
+                               Ledger White October 2nd, October2020
+
+                                  
+                                    Copyright (c) W L White 2020
+
+                                         All rights reserved
+
+
+                                Ledger's Wordz is a FREEWARE package:
+                               it can be freely copied and distributed
+                                  under the terms of the licensing
+                               agreement at the end of this document.
+
+
+Introduction
+------------
+
+I was fortunate enough to discover The UK Advanced Cryptics Dictionary (UKACD) by Ross Beresford in early 2008. To me, as a devotee of the Enigmatic Variations puzzle from the Sunday Telegraph, this is little short of a goldmine. It contains all the words of Chambers Dictionary which, when EV say 'Chambers Dictionary (2016) is recommended' that is rather too gentle - really, you haven't a cat in Hell's chance without it! Around 15 to 20% of EV's answers are words previously unknown to me. Yet I use it only once or twice a week for the Telegraph's daily cryptic crossword.
+
+It may seem a bit much having a powerful tool to ease the burden of page-turning, but believe me, few EVers would kick this out of their head. All's fair in EV, love and war. (With apologies to John Lyly because the Telegraph wasn't around in his day.)
+
+I have expanded the original UKACD with the following:
+
+- a list of phrases I found somehwere on the web
+- a list of proper nouns from somewhere on the web
+- words from MS Word spelling checker I found sometime in 2008
+- list of words from Ovation, a dtp package that ran on Acorn machines
+
+UKACD and my additions gives 241,732 words and phrases that are used in Ledger's Wordz.
+
+I have tried Ledgers Wordz on Chrome, MS Edge and Firefox. There are some subtle cosmetic inflections but the thinking code appears to perform correctly on all of the browsers. Entering '@' on MATCH or ANAGRAM will list all of the entries, it takes less than six seconds on my pc using an Intel i7. I am interested in timings - it is important that it works quickly. On startup, my machine takes less than second to load all the words.
+
+Main Functions
+--------------
+
+A pattern is entered in the top-left box. Only letters are used, a hash (#) represents a single letter and an 'at' symbol (@) represents a series of letters. All other characters are ignored. 
+
+MATCH finds all the words that match the pattern: 
+- 'sa###' finds all the 5-letter words starting 'sa'
+- '##pun##' finds all the 7-letter words with 'pun' in the middle
+- '###cat' finds all the 6-letter words ending with 'cat'
+- 'pre#####@' finds all the words of at least 8 letters that begin with 'pre'
+- note that '@#' will be replaced with '#@' and '@@' will be replaced with '@' before the search.
+
+ANAGRAM finds all the single-word anagrams of the pattern:
+- 'ailments' does not find 'salt mine'! 
+- 'petals' finds the anagrams of 'petals'
+- 'petals####' finds the 10-letter words that include the letters of 'petals'
+- '##petals@' finds the words of at least 8 letters that include the letters of 'petals'
+- 'aeiou' shows there are no 5 letter words containing only vowels, but 'aeiou##' shows the shortest words that do.
+
+Both searches list the words in alphabetical order.
+
+USE LAST FOUND
+- click this and the result of the last MATCH or ANAGRAM is used as the list to search
+- it is a re-entrant function and will continue using the words in the result list
+- after an Anagram search using 'cond@' which gives over 5,000 words, enter '@ed' and 
+  click USE LAST FOUND to find those that end with 'ed', then enter '@pp@' and click
+  USE LAST FOUND to reduce the list to just a handful
+- I find this facility very useful about twice a month on EV
+
+RESTORE
+- this will restore the result of the last MATCH or ANAGRAM
+- using the previous example RESTORE will redo the ANAGRAM search of 'cond@'
+
+Other functions
+---------------
+
+LONGEST finds the anagrams of the letters entered in length order - it does not use the pattern. It does't search for lengths greater than 20 or fewer than 4.
+
+COUNTDOWN is used when 9 letters are entered. It finds words in the same way as LONGEST.
+
+ORDERED (a-z) and ORDERED (z-a) finds words where their letters are in alphabetical order (or reverse order). MIN LENGTH: and DOUBLE LETTERS: are the choices you have. A simple experiment from the past. 
+
+RESULTS LIMIT sets the limit on the number of words found. The searches stop when it is reached. Not sure how useful it is.
+
+Some trivia...
+--------------
+
+ - try a MATCH on @g and @ing ... see how many words that end in g end in ing over 90%
+ - try a MATCH on @y@ and @y and see there's a 50-50 chance that the 'y' is the last letter in an anagram that includes a 'y' 
+ - a MATCH on x@ will show all the words starting with 'x'
+ - that strange medical concoction of 45 letters... it starts with a 'p' so a MATCH on 'p' and about 30 #'s and an '@' then you'll  soon find it
+ - and that long Welsh town... then a MATCH on 'll@' will show it
+ - useful for checking spelling... i before e? or anenome? type it in as an ANAGRAM... 
+ 
+ - BYTE - its origin. Something that Chambers' etymologists may have overlooked? They refer the reader to "bit" and "bite", but from my memory I think the origin is more prosaic and it flowed naturally from day-to-day conversation: in the old days (when I was a lad lol), memory devices were described and written as "128 x 8" or "512 x 8" or "1024 x 8"... hence from "x 8" or "by 8" one gets the word from the casual, informal pronounciation of "by eight". Just as "tuppence", "bosun", "ain't", "deejay" ... were likely to have come about.
+
+Feedback
+--------
+
+For any comments, suggestions, or anything relevant please contact the author at ledgerswordz@outlook.com
+
+Licensing Information
+---------------------
+
+Copyright (c) W L WHITE October 2020. All rights reserved.
+
+The following restrictions are placed on the use of this publication:
+
+If Ledger's Wordz is used in part or as a whole in a software package or redistributed in any form, the copyright notice must be prominently displayed and the text of this document must be included verbatim.
+
+The text of UKACD README must be included verbatim.
+
+There are no other restrictions. I would like to see Ledger's Wordz using UKACD and my additions distributed as widely as possible.
+
+
+

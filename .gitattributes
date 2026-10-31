@@ -1,0 +1,6 @@
+# Data and licence files are shipped byte-for-byte; never convert line endings.
+public/data/** -text
+LICENSES/** -text
+public/licenses/** -text
+*.woff2 binary
+*.png binary

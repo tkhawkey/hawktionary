@@ -1,0 +1,123 @@
+/* Hawktionary design tokens.
+   Every colour, font, size, spacing and motion timing lives here.
+   "Make it darker", "try a different accent", "less animation" = edit this file only. */
+
+:root {
+  /* Colours: light */
+  --paper: #F6F3EC;
+  --card: #FFFDF8;
+  --ink: #1B1A17;
+  --muted: #5E5A52;
+  --faint: #8A8478;          /* dimmed obscure words; large text only */
+  --rule: #DDD6C8;
+  --rule-soft: #ECE6DA;
+  --accent: #B8322A;         /* crossword red */
+  --accent-ink: #FFFFFF;     /* text on accent */
+  --accent-soft: #F3E1DC;    /* accent tint for highlights */
+  --square-bg: #FFFDF8;
+  --square-ink: #1B1A17;
+  --square-border: #1B1A17;
+  --square-filled: #1B1A17;  /* the black square in the wordmark */
+  --square-filled-ink: #FFFDF8;
+  --shadow: 0 1px 2px rgba(27, 26, 23, .06), 0 8px 24px rgba(27, 26, 23, .08);
+  --scrim: rgba(27, 26, 23, .32);
+
+  /* Type */
+  --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.1875rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --headword-size: 2.125rem;
+  --line: 1.5;
+  --serif-opsz: 72;          /* Fraunces optical size for headings */
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --gutter: 16px;
+  --radius: 3px;             /* keep corners crisp */
+  --radius-sheet: 12px;
+  --touch: 44px;             /* minimum touch target */
+
+  /* Letter squares */
+  --square-size: 38px;
+  --square-size-sm: 30px;
+  --square-border-width: 1.5px;
+  --square-gap-word: 12px;   /* gap that shows a word break */
+
+  /* Layout */
+  --content-max: 1180px;
+  --wide-left: 440px;        /* left column width on tablet/PC */
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-in-out: cubic-bezier(.4, 0, .2, 1);
+  --dur-fast: 150ms;
+  --dur-med: 260ms;
+  --dur-slow: 420ms;
+  --stagger: 40ms;           /* delay between result rows */
+  --stagger-max: 12;         /* rows after this appear together */
+  --rise: 8px;               /* how far results rise as they fade in */
+  --hover-delay: 300;        /* ms before a definition popover appears (read by JS) */
+}
+
+/* Colours: dark (charcoal background, cream text, same accent family) */
+:root[data-theme="dark"] {
+  --paper: #191816;
+  --card: #22211E;
+  --ink: #EDE7D9;
+  --muted: #ADA697;
+  --faint: #7D776B;
+  --rule: #3A3732;
+  --rule-soft: #2D2B27;
+  --accent: #E0645A;
+  --accent-ink: #191816;
+  --accent-soft: #3C2523;
+  --square-bg: #22211E;
+  --square-ink: #EDE7D9;
+  --square-border: #CFC8B8;
+  --square-filled: #EDE7D9;
+  --square-filled-ink: #191816;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 28px rgba(0, 0, 0, .4);
+  --scrim: rgba(0, 0, 0, .5);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #191816;
+    --card: #22211E;
+    --ink: #EDE7D9;
+    --muted: #ADA697;
+    --faint: #7D776B;
+    --rule: #3A3732;
+    --rule-soft: #2D2B27;
+    --accent: #E0645A;
+    --accent-ink: #191816;
+    --accent-soft: #3C2523;
+    --square-bg: #22211E;
+    --square-ink: #EDE7D9;
+    --square-border: #CFC8B8;
+    --square-filled: #EDE7D9;
+    --square-filled-ink: #191816;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 28px rgba(0, 0, 0, .4);
+    --scrim: rgba(0, 0, 0, .5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 1ms;
+    --dur-med: 1ms;
+    --dur-slow: 1ms;
+    --stagger: 0ms;
+    --rise: 0px;
+  }
+}
