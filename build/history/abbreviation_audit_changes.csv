@@ -1,0 +1,553 @@
+abbreviation,clue_term,current_tier,action,new_value,reason
+A,answer,2,move,1,Q&A; very common
+A,ay,3,delete,,"homophone (wordplay), not an abbreviation"
+A,aye,3,delete,,"homophone (wordplay), not an abbreviation"
+A,first character,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+A,first letter,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+A,key +,3,delete,,"duplicate of ""key"" with a stray source marker"
+A,midday,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+A,note +,3,delete,,"duplicate of ""note"" with a stray source marker"
+A,one *,3,delete,,"duplicate of ""one"" with a stray source marker"
+A,per,3,move,2,"""a"" = per (£5 a day) is common"
+A,road,3,move,2,A-road; regularly used
+AB,able seaman,3,move,1,full form raised to match its synonym's tier
+AB,rating,3,move,2,common
+AB,salt,3,move,2,common
+AB,seaman,2,move,1,standard
+AB,tar,2,move,1,standard
+ABEL,third man,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+AC,aero cliub,3,fix,aero club,typo
+AC,aircraftsman,3,move,2,full form raised to match its synonym's tier
+AC,alternating current,2,move,1,full form raised to match its synonym's tier
+ACE,one,2,move,1,common
+AD,advert,2,move,1,very common
+AD,advertisement,3,move,1,full form raised to match its synonym's tier
+AD,commercial,2,move,1,very common
+AD,notice,3,move,2,common enough
+AD,promotion,2,move,1,common
+ADAM,first character,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+ADAM,number one,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+AI,sloth,3,move,2,crossword staple
+AL,capone,3,move,2,common
+AL,gangster/gang leader,2,delete,,"slash entry; ""gangster"" already exists"
+AL,one pound,3,delete,,"charade (A+L), not an abbreviation"
+ALA,wings,3,fix,wing,ala = wing; wings = alae
+ALB,one pound,3,delete,,"charade (A+LB), not an abbreviation"
+AM,admitting,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+AM,boasting,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+AM,self-confessed,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+AMP,one member,3,delete,,"charade (A+MP), not an abbreviation"
+AN,articles - english,3,delete,,malformed entry
+AN,one *,3,delete,,"duplicate of ""one"" with a stray source marker"
+ANS,collection,3,delete,,confused with ANA
+ANT,six-footer,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+ANT,social worker,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+AS,ayes,3,delete,,"homophone (wordplay), not an abbreviation"
+AS,ays,3,delete,,"homophone (wordplay), not an abbreviation"
+AV,authorized version,3,move,2,full form raised to match its synonym's tier
+AYE,i say,3,delete,,"homophone (wordplay), not an abbreviation"
+AZE,arizona,2,delete,,Arizona is AZ/Ariz; AZE is Azerbaijan only
+B,a follower,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+B,bee,3,delete,,"homophone (wordplay), not an abbreviation"
+B,book *,3,delete,,"duplicate of ""book"" with a stray source marker"
+B,key +,3,delete,,"duplicate of ""key"" with a stray source marker"
+B,note +,3,delete,,"duplicate of ""note"" with a stray source marker"
+B,second letter,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+BA,bachelor of arts,2,move,1,full form raised to match its synonym's tier
+BAT,fly-by-night,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+BB,bees,3,delete,,"homophone (wordplay), not an abbreviation"
+BBFC,everyone,2,delete,,"BBFC is the board; ""for all/everyone"" = U"
+BBFC,for all,2,delete,,as above
+BD,beady,3,delete,,"homophone (wordplay), not an abbreviation"
+BDS,barbados,2,move,3,obscure vehicle code
+BEE,six-footer,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+BEE,social worker,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+BEF,gorts men,3,fix,Gort's men,typo
+BH,belize,2,move,3,obscure old vehicle code
+BL,bachelor of law,3,move,1,full form raised to match its synonym's tier
+BR,british rail,3,move,2,full form raised to match its synonym's tier
+BR,brown *,3,delete,,"duplicate of ""brown"" with a stray source marker"
+BRN,bahrain,2,move,3,obscure vehicle code
+BRU,brunei,2,move,3,obscure vehicle code
+BS,bees,3,delete,,"homophone (wordplay), not an abbreviation"
+BT,baronet,3,move,2,Bt is standard
+C,cryptic,1,delete,,no such meaning (same for RC)
+C,key +,3,delete,,"duplicate of ""key"" with a stray source marker"
+C,note +,3,delete,,"duplicate of ""note"" with a stray source marker"
+C,sea,3,delete,,"homophone (wordplay), not an abbreviation"
+C,see,3,delete,,"homophone (wordplay), not an abbreviation"
+C,united,2,delete,,artefact from FC = football club (replaces earlier note)
+CA,chartered accountant,2,move,1,full form raised to match its synonym's tier
+CAN,able to +,3,fix,able to,stray source marker (* / +)
+CAN,is able to +,3,fix,is able to,stray source marker (* / +)
+CATO,plotters street,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+CB,seabee (american),3,delete,,"homophone (wordplay), not an abbreviation"
+CC,seas,3,delete,,"homophone (wordplay), not an abbreviation"
+CD,compact disc,2,move,1,full form raised to match its synonym's tier
+CD,diplomat,3,move,2,"corps diplomatique, common"
+CD,seedy,3,delete,,"homophone (wordplay), not an abbreviation"
+CE,chemical engineer,2,move,1,full form raised to match its synonym's tier
+CE,church of england,2,move,1,full form raised to match its synonym's tier
+CE,civil engineer,3,move,1,full form raised to match its synonym's tier
+CERN,physicists,2,move,3,niche
+CH,companion of honour,2,move,1,full form raised to match its synonym's tier
+CH,medal,1,move,3,"CH is an honour, not a medal; rare"
+CID,policeman/men,2,fix,policeman,slash entry split into a single clue term
+COM,leftist,1,move,2,RED/COMMIE are the usual ones
+CON,conservative,2,move,1,full form raised to match its synonym's tier
+CORE,decentralise,3,delete,,no such meaning
+CORN,naval commander,3,delete,,no such meaning
+COW,lower,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+CR,creditor,3,move,1,full form raised to match its synonym's tier
+CR,credt,2,delete,,typo duplicate of credit
+CS,seas,3,delete,,"homophone (wordplay), not an abbreviation"
+CU,penny,2,move,3,two-step chain (Cu=copper=penny)
+CUE,queue,3,delete,,"homophone (wordplay), not an abbreviation"
+CY,see why,3,delete,,"homophone (wordplay), not an abbreviation"
+D,copper,1,move,2,indirect (penny)
+D,dee,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+D,density,1,move,2,"science, less common in puzzles"
+D,key +,3,delete,,"duplicate of ""key"" with a stray source marker"
+D,lawrence,2,move,3,initials split (D.H. Lawrence); rare alone
+D,many +,3,fix,many,stray source marker (* / +)
+D,note +,3,delete,,"duplicate of ""note"" with a stray source marker"
+D,notice,2,delete,,no source for this
+DA,dagger *,3,fix,dagger,stray source marker (* / +)
+DA,district attorney,2,move,1,full form raised to match its synonym's tier
+DAS,articles - german,3,delete,,"malformed; ""the (language)"" entry covers it"
+DC,direct current,2,move,1,full form raised to match its synonym's tier
+DD,doctor of divinity,2,move,1,full form raised to match its synonym's tier
+DER,articles - german,3,delete,,"malformed; ""the (language)"" entry covers it"
+DI,policeman/men,2,delete,,"slash entry; ""policeman"" already exists"
+DI,princess,3,move,1,crossword staple
+DIE,articles - german,3,delete,,"malformed; ""the (language)"" entry covers it"
+DIME,12.5 cents,3,delete,,a dime is 10 cents
+DIY,amateurs department,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+DO,ditto,3,move,2,full form raised to match its synonym's tier
+DODO,double act,3,delete,,"charade (DO+DO), not an abbreviation"
+DPH,doctor of philosophy,3,delete,,D.Phil is DPHIL; DPH is Diploma in Public Health
+DY,benin,2,move,3,obscure vehicle code
+E,asian,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+E,base,1,move,2,maths only
+E,energy +,3,delete,,"duplicate of ""energy"" with a stray source marker"
+E,key +,3,delete,,"duplicate of ""key"" with a stray source marker"
+E,lawrence,2,move,3,initials split (D.H./T.E. Lawrence); rare alone
+E,note +,3,delete,,"duplicate of ""note"" with a stray source marker"
+E,vacant,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+EA,river *,3,fix,river,stray source marker (* / +)
+EAR,spike *,3,fix,spike,stray source marker (* / +)
+EAR,word processor,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+EC,east central,3,move,1,full form raised to match its synonym's tier
+EC,established church,3,move,1,full form raised to match its synonym's tier
+EE,ease,3,delete,,"homophone (wordplay), not an abbreviation"
+EL,articles - spanish,3,delete,,"malformed; ""the (language)"" entry covers it"
+ER,hesitation,2,move,1,very common
+ER,queen elizabeth,2,move,1,full form raised to match its synonym's tier
+ER,soap,1,move,3,"ER is a hospital drama, not a soap"
+ERE,always,3,delete,,"ERE = before; ""always"" is E'ER"
+ERIC,gradually,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+ES,ease,3,delete,,"homophone (wordplay), not an abbreviation"
+ET,and (french),3,move,2,common
+ET,extraterrestrial,2,move,1,full form raised to match its synonym's tier
+ETA,greek letter,3,move,2,common
+EVE,first mate,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+EX,from,3,move,2,common
+EYE,i say,3,delete,,"homophone (wordplay), not an abbreviation"
+F,key +,3,delete,,"duplicate of ""key"" with a stray source marker"
+F,note +,3,delete,,"duplicate of ""note"" with a stray source marker"
+F,united,2,delete,,artefact from FC = football club
+FA,florida,2,delete,,Florida is FL/FLA
+FARE,china area (far east),3,delete,,"wordplay or cryptic definition, not an abbreviation"
+FEB,declaration,3,delete,,no such meaning
+FF,fortissimo,2,move,1,full form raised to match its synonym's tier
+FR,frequently,2,move,3,rare
+FT,financial times,2,move,1,full form raised to match its synonym's tier
+G,gee,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+G,key +,3,delete,,"duplicate of ""key"" with a stray source marker"
+G,midnight,2,delete,,"wordplay or cryptic definition, not an abbreviation"
+G,note +,3,delete,,"duplicate of ""note"" with a stray source marker"
+GA,georgia,1,move,2,US state codes rarely Tier 1
+GC,george cross,3,move,1,full form raised to match its synonym's tier
+GG,gee-gee,3,move,1,full form raised to match its synonym's tier
+GI,government issue,3,move,1,full form raised to match its synonym's tier
+GP,general practitioner,2,move,1,full form raised to match its synonym's tier
+H,lawrence,2,move,3,initials split (D.H. Lawrence); rare alone
+HA,half ditch,3,delete,,"wordplay (half of HAHA), not an abbreviation"
+HM,her majesty,2,move,1,full form raised to match its synonym's tier
+HO,hohnium,3,delete,,no such element; Ho = holmium
+HOU,45 minutes,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+HS,in this sernse,3,fix,in this sense,typo
+I,an,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+I,ane,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+I,ay,3,delete,,"homophone (wordplay), not an abbreviation"
+I,aye,3,delete,,"homophone (wordplay), not an abbreviation"
+I,che,3,delete,,no such meaning
+I,eye,3,delete,,"homophone (wordplay), not an abbreviation"
+I,lunchtime,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+I,promises,2,delete,,artefact from IOUs
+I,un,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+IAM,admitting,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+IAM,afternoon,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+IAM,boasting,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+IAM,early morning,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+IAM,self-confessed,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+IANS,one answer,3,delete,,charade (I+ANS)
+IC,hundred,3,delete,,"IC = 99, not 100"
+IC,i see,3,delete,,"homophone (wordplay), not an abbreviation"
+ICE,hard water,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+ICT,technology,1,move,2,not a crossword staple
+ID,fish,3,delete,,the fish is IDE
+ID,genius,3,delete,,no such meaning
+ID,yours truly,2,delete,,yours truly = I/ME
+IGN,gin cocktail,3,delete,,"anagram of GIN, not an abbreviation"
+IGN,sling,3,delete,,as above
+II,eleven,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+II,end of war,2,move,3,rare
+IL,articles - italian,3,delete,,"malformed; ""the (language)"" entry covers it"
+IL,one pound,3,delete,,charade (I+L)
+ILB,one pound,3,delete,,charade
+IM,admitting,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+IM,boasting,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+IM,self-confessed,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+IMP,mischevious child,3,fix,mischievous child,typo
+IMP,one member,3,delete,,charade (I+MP)
+IN,batting,3,move,2,common
+ING,gin cocktail,3,delete,,anagram of GIN
+ING,sling,3,delete,,anagram of GIN
+IO,ten,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+IOC,dime (american),3,delete,,"wordplay or cryptic definition, not an abbreviation"
+ION,number one returning,3,delete,,wordplay (NO I reversed)
+IS,ayes,3,delete,,"homophone (wordplay), not an abbreviation"
+IS,ays,3,delete,,"homophone (wordplay), not an abbreviation"
+IS,eyes,3,delete,,"homophone (wordplay), not an abbreviation"
+ISP,internet/internet provider,2,fix,internet provider,slash entry split into a single clue term
+ISS,exists,3,delete,,no such abbreviation
+IST,first,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+IT,information technology,2,move,1,full form raised to match its synonym's tier
+IT,sex appeal,2,move,1,very common
+IV,ivy,3,delete,,"homophone (wordplay), not an abbreviation"
+IV,tea-time,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+J,jay,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+JAN,deceased,3,delete,,no such meaning
+JP,justice of the peace,2,move,1,full form raised to match its synonym's tier
+K,kay,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+KA,double *,3,fix,double,stray source marker (* / +)
+KA,genius *,3,fix,genius,stray source marker (* / +)
+KC,king's counsel,3,move,2,full form raised to match its synonym's tier
+KG,cagey,3,delete,,"homophone (wordplay), not an abbreviation"
+KG,keg,3,delete,,"homophone (wordplay), not an abbreviation"
+KG,kegs,3,delete,,"homophone (wordplay), not an abbreviation"
+KL,kale,3,delete,,"homophone (wordplay), not an abbreviation"
+KN,cayenne,3,delete,,"homophone (wordplay), not an abbreviation"
+KNEE,bender,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+KV,cavy,3,delete,,"homophone (wordplay), not an abbreviation"
+L,el,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+L,ell,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+L,latin,1,move,2,LAT is the usual
+L,lose,1,move,2,results tables use L for lost; less common
+L,many +,3,fix,many,stray source marker (* / +)
+L,midfielder,2,delete,,no such meaning
+LA,articles - french,3,delete,,"malformed; ""the (language)"" entry covers it"
+LA,articles - italian,3,delete,,"malformed; ""the (language)"" entry covers it"
+LA,articles - spanish,3,delete,,"malformed; ""the (language)"" entry covers it"
+LA,look *,3,fix,look,stray source marker (* / +)
+LA,los angeles,2,move,1,full form raised to match its synonym's tier
+LAB,labour,2,move,1,full form raised to match its synonym's tier
+LAN,local area network,2,move,1,full form raised to match its synonym's tier
+LAR,libya,2,move,3,obscure vehicle code
+LB,one pound,3,delete,,"LB already = pound; ""one"" is padding"
+LE,articles - french,3,delete,,"malformed; ""the (language)"" entry covers it"
+LEG,on,3,move,2,common (leg side = on side)
+LEI,wreath *,3,fix,wreath,stray source marker (* / +)
+LES,articles - french,3,delete,,"malformed; ""the (language)"" entry covers it"
+LIB,liberal,2,move,1,full form raised to match its synonym's tier
+LIT,literary/literature,2,delete,,"slash entry; ""literary"" already exists"
+LL,ells,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+LL,els,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+LL,fifty-fifty,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+LOS,articles - spanish,3,delete,,malformed entry
+LOTI,first item in sale,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+LP,long playing,3,move,1,full form raised to match its synonym's tier
+LP,long playing record,2,move,1,full form raised to match its synonym's tier
+LS,ells,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+LS,els,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+M,em,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+M,many +,3,fix,many,stray source marker (* / +)
+M,mum,1,move,2,"MA/MUM are the usual ""mother"" entries"
+M,time,2,move,3,unclear source; rare
+MA,river,2,delete,,no common river Ma in crossword use
+MAR,declension,3,delete,,no such meaning
+MAYO,tree ring,3,delete,,"charade (MAY+O), not an abbreviation"
+MB,666,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+MB,mark of the beast,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+MET,metropolitan,3,move,2,full form raised to match its synonym's tier
+MET,policeman/men,2,fix,policeman,slash entry split into a single clue term
+MF,quite loud,1,move,2,less common than F/FF
+MIC,manager,2,delete,,no such meaning
+MIN,half minute,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+MIN,thirty seconds,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+ML,miles,3,delete,,ml = millilitre
+MM,ems,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+MO,half minute,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+MO,medical officer,2,move,1,full form raised to match its synonym's tier
+MOM,mum,1,move,2,"American word, not a crossword staple"
+MOO,neat sound,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+MOTH,fly-by-night,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+MP,member of parliament,2,move,1,full form raised to match its synonym's tier
+MP,mezzo-piano,3,move,2,full form raised to match its synonym's tier
+MP,quite quiet,1,move,2,less common
+MS,ems,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+MS,manuscript,2,move,1,full form raised to match its synonym's tier
+MUM,quiet,3,move,2,"""mum's the word""; common"
+N,en,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+N,half an em,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+N,midday,3,delete,,midday = M or A (mid-dAy); N wrong
+N,noon,1,move,3,M is the noon/meridian letter; N rare
+N,pole +,3,delete,,"duplicate of ""pole"" with a stray source marker"
+N,up or upper,2,move,3,unclear
+NA,north america,1,move,2,not a staple
+NATO,charlie,2,delete,,wrong direction (Charlie is NATO code for C)
+NB,nota bene,3,move,1,full form raised to match its synonym's tier
+NC,new church,1,move,3,obscure
+NI,national insurance,2,move,1,full form raised to match its synonym's tier
+NI,northern ireland,3,move,2,standard expansion
+NI,northern island,2,delete,,typo for northern ireland
+NN,news,2,delete,,no such abbreviation
+NOI,leading,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+NOI,no one,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+NOI,number one,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+NOV,november,1,move,2,consistent with other months (Tier 2)
+NS,ens,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+NT,new testament,2,move,1,full form raised to match its synonym's tier
+NUS,dawn,3,delete,,no such meaning
+NUT,teachers,1,move,2,union now merged into NEU; less used
+NV,envy,3,delete,,"homophone (wordplay), not an abbreviation"
+NY,new york,2,move,1,full form raised to match its synonym's tier
+O,oh,3,delete,,"homophone (wordplay), not an abbreviation"
+O,owe,3,delete,,"homophone (wordplay), not an abbreviation"
+O,please,2,move,3,unclear source
+OBE,award,3,move,2,usual clue
+OBE,honour,3,move,2,usual clue
+OBE,medal,1,move,2,"OBE is an order, usually clued ""award/honour"""
+OG,alumnus,2,move,3,Old Girl; OB is the usual
+OG,own goal,3,move,2,common
+OK,okay,3,move,2,full form raised to match its synonym's tier
+OL,old,2,move,3,rare
+OM,medal,1,move,2,OM is an order/honour; still used
+OM,order of merit,3,move,2,full form raised to match its synonym's tier
+ONE,lunchtime,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+OO,ohs,3,delete,,"homophone (wordplay), not an abbreviation"
+OO,owes,3,delete,,"homophone (wordplay), not an abbreviation"
+OP,opus,2,move,1,full form raised to match its synonym's tier
+OR,before *,3,fix,before,stray source marker (* / +)
+OR,other ranks,3,move,1,full form raised to match its synonym's tier
+ORD,no way,3,delete,,charade (O+RD)
+ORD,ring road,3,delete,,charade (O+RD)
+OS,jack,1,move,2,jack = AB usually
+OS,ohs,3,delete,,"homophone (wordplay), not an abbreviation"
+OS,ordinary seaman,2,move,1,full form raised to match its synonym's tier
+OS,outsize,2,move,1,full form raised to match its synonym's tier
+OS,owes,3,delete,,"homophone (wordplay), not an abbreviation"
+OT,old testament,2,move,1,full form raised to match its synonym's tier
+OU,open university,2,move,1,full form raised to match its synonym's tier
+OUR,45 minutes,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+OUS,nothing to america,3,delete,,charade (O+US)
+OY,"oh, why",3,delete,,"homophone (wordplay), not an abbreviation"
+OZ,australia,2,move,1,very common
+P,pea,3,delete,,"homophone (wordplay), not an abbreviation"
+P,pee,3,delete,,"homophone (wordplay), not an abbreviation"
+P,pressure,1,move,2,science; less common
+P,pudding,1,move,3,no clear source
+P,quiet/quietly,2,delete,,"slash entry; ""quiet"" already exists"
+PC,police constable,2,move,1,full form raised to match its synonym's tier
+PC,policeman/men,2,delete,,"slash entry; ""policeman"" already exists"
+PE,physical education,2,move,1,full form raised to match its synonym's tier
+PF,pfenning,3,fix,pfennig,typo
+PHD,doctor of philosophy,2,move,1,full form raised to match its synonym's tier
+PI,confusion *,3,fix,confusion,stray source marker (* / +)
+PLA,mountain retreat,3,delete,,no such meaning
+PM,say,1,delete,,no such meaning (say = EG)
+PO,palladium,3,delete,,palladium is Pd
+PO,poet,2,move,3,only as a Poe homophone
+PO,river,2,move,1,River Po is a staple
+PP,peas,3,delete,,"homophone (wordplay), not an abbreviation"
+PP,pees,3,delete,,"homophone (wordplay), not an abbreviation"
+PP,pianissimo,2,move,1,full form raised to match its synonym's tier
+PP,sofly,3,fix,softly,typo
+PR,public relations,2,move,1,full form raised to match its synonym's tier
+PRO,for,3,move,2,common
+PS,peas,3,delete,,"homophone (wordplay), not an abbreviation"
+PS,pees,3,delete,,"homophone (wordplay), not an abbreviation"
+PS,postscript,2,move,1,full form raised to match its synonym's tier
+PT,physical training,2,move,1,full form raised to match its synonym's tier
+PT,tense,2,move,3,rare
+PV,peavy,3,delete,,"homophone (wordplay), not an abbreviation"
+Q,cue,3,delete,,"homophone (wordplay), not an abbreviation"
+Q,queue,3,delete,,"homophone (wordplay), not an abbreviation"
+QC,queen's counsel,3,move,2,full form raised to match its synonym's tier
+QP,doll,3,delete,,"homophone (wordplay), not an abbreviation"
+QP,kewpie,3,delete,,"homophone (wordplay), not an abbreviation"
+QT,cutie,3,delete,,"homophone (wordplay), not an abbreviation"
+R,are,3,delete,,"homophone (wordplay), not an abbreviation"
+R,car,1,delete,,no such meaning (RR = car)
+R,month,3,delete,,no such meaning
+R,recipe,1,move,2,"less common than ""take"""
+R,redhead,1,delete,,"wordplay or cryptic definition, not an abbreviation"
+R,take *,3,delete,,"duplicate of ""take"" with a stray source marker"
+RA,gunners/gunmen,2,delete,,"slash entry; ""gunners"" already exists"
+RA,royal academician,2,move,1,full form raised to match its synonym's tier
+RA,sun god,3,move,2,crossword staple
+RAIN,waterfall,3,delete,,no such meaning
+RAM,butter,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+RAT,art nouveau,3,delete,,"anagram wordplay, not an abbreviation"
+RC,cryptic,1,delete,,no such meaning
+RC,roman catholic,2,move,1,full form raised to match its synonym's tier
+RC,taiwan,2,move,3,obscure vehicle code
+RCA,central african republic,2,move,3,obscure vehicle code
+RCH,chile,2,move,3,obscure vehicle code
+RE,royal engineer,3,move,1,full form raised to match its synonym's tier
+RE,royal engineers,2,move,1,full form raised to match its synonym's tier
+RE,sappers,2,move,1,very common
+RED,cent *,3,fix,cent,stray source marker (* / +)
+RG,argy,3,delete,,"homophone (wordplay), not an abbreviation"
+RG,argy-bargy,3,delete,,"homophone (wordplay), not an abbreviation"
+RG,guinea,2,move,3,obscure vehicle code
+RH,haiti,2,move,3,obscure vehicle code
+RI,indonesia,2,move,3,obscure vehicle code
+RI,kind and emperor,3,delete,,typo duplicate of king emperor
+RIM,mauritania,2,move,3,obscure vehicle code
+RIP,corn,3,delete,,no such meaning
+RL,lebanon,2,move,3,obscure vehicle code
+RL,rugby league,2,move,1,full form raised to match its synonym's tier
+RM,madagascar,2,move,3,obscure vehicle code
+RM,royal marine,3,move,1,full form raised to match its synonym's tier
+RM,royal marines,2,move,1,full form raised to match its synonym's tier
+RN,niger,2,move,3,obscure vehicle code
+RN,royal navy,2,move,1,full form raised to match its synonym's tier
+ROU,uruguay,2,move,3,obscure vehicle code
+RP,philippines,2,move,3,obscure vehicle code
+RR,ars,3,delete,,"homophone (wordplay), not an abbreviation"
+RR,right reverend,2,move,1,full form raised to match its synonym's tier
+RT,arty,3,delete,,"homophone (wordplay), not an abbreviation"
+RU,burundi,2,move,3,obscure vehicle code
+RU,rugby union,2,move,1,full form raised to match its synonym's tier
+RV,bible,1,move,2,match AV (Tier 2)
+RV,revised version,3,move,2,full form raised to match its synonym's tier
+S,american,2,delete,,no such meaning
+S,es,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+S,ess,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+S,largesse,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+S,poet,2,move,3,initials split (T.S. Eliot); rare
+S,pole +,3,delete,,"duplicate of ""pole"" with a stray source marker"
+S,snake,2,move,3,rare
+S,square,1,delete,,no such meaning (T-square = T)
+SA,essay,3,delete,,"homophone (wordplay), not an abbreviation"
+SA,south american,1,move,2,not a staple
+SAS,soldiers,3,move,2,common
+SD,swaziland,2,move,3,obscure; country now Eswatini
+SDP,nationalists,3,delete,,SDP = Social Democrats (SNP are nationalists)
+SEN,without,2,move,3,rare/doubtful
+SETH,fourth man,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+SH,quiet/quietly,2,delete,,"slash entry; ""quiet"" already exists"
+SN,essen,3,delete,,"homophone (wordplay), not an abbreviation"
+SOS,apppeal for help,2,fix,appeal for help,typo
+SP,record,1,move,2,rare
+SS,steam ship,2,move,1,full form raised to match its synonym's tier
+SS,steamship,2,move,1,full form raised to match its synonym's tier
+SS,weekend,2,move,3,"rare (K is the usual ""weekend"")"
+SUN,newspaper,3,move,2,common
+SY,seychelles,2,move,3,obscure vehicle code
+T,half dry,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+T,hear,2,delete,,no such meaning
+T,lawrence,2,move,3,initials split; rare
+T,model +,3,delete,,"duplicate of ""model"" with a stray source marker"
+T,perfect letter,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+T,poet,2,move,3,initials split (T.S. Eliot); rare
+T,tea,3,delete,,"homophone (wordplay), not an abbreviation"
+T,tee,3,delete,,"homophone (wordplay), not an abbreviation"
+T,tense,1,move,2,less common
+TA,territorial army,2,move,1,full form raised to match its synonym's tier
+TA,territorials,3,move,1,full form raised to match its synonym's tier
+TAR,art nouveau,3,delete,,"anagram wordplay, not an abbreviation"
+TCH,chad,2,move,3,obscure vehicle code
+TEC,detective,3,move,2,common
+TEN,pms address,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+TENT,wine,1,move,2,fairly obscure
+TG,togo,2,move,3,obscure vehicle code
+THE,articles - english,3,delete,,"malformed; ""the (language)"" entry covers it"
+TION,empty container,3,delete,,no such meaning
+TO,will,3,delete,,no such meaning
+TOM,tome,3,delete,,"homophone (wordplay), not an abbreviation"
+TON,hundred,2,move,1,very common
+TOR,hell,3,delete,,no such meaning
+TP,teepee,3,delete,,"homophone (wordplay), not an abbreviation"
+TS,teas,3,delete,,"homophone (wordplay), not an abbreviation"
+TS,tees,3,delete,,"homophone (wordplay), not an abbreviation"
+TT,rechabite,2,move,3,obscure
+TT,teas,3,delete,,"homophone (wordplay), not an abbreviation"
+TT,tees,3,delete,,"homophone (wordplay), not an abbreviation"
+TT,teetotal,2,move,1,very common
+TT,teetotaller,2,move,1,full form raised to match its synonym's tier
+TT,thank you,3,delete,,thank you = TA/TY
+TU,trade union,3,move,2,full form raised to match its synonym's tier
+TV,televison,2,fix,television,typo
+U,american,2,delete,,artefact from US
+U,ewe,3,delete,,"homophone (wordplay), not an abbreviation"
+U,yew,3,delete,,"homophone (wordplay), not an abbreviation"
+U,you,3,delete,,"homophone (wordplay), not an abbreviation"
+UC,you see,3,delete,,"homophone (wordplay), not an abbreviation"
+UK,party,2,delete,,no such meaning
+UK,university,2,delete,,no such meaning
+UN,one,3,move,2,"common (French ""un"")"
+UQ,you queue,3,delete,,"homophone (wordplay), not an abbreviation"
+US,ewes,3,delete,,"homophone (wordplay), not an abbreviation"
+US,georgia,2,delete,,Georgia is GA
+US,united states,2,move,1,full form raised to match its synonym's tier
+US,unservicable,3,delete,,typo duplicate of unserviceable
+US,use,3,delete,,"homophone (wordplay), not an abbreviation"
+US,yews,3,delete,,"homophone (wordplay), not an abbreviation"
+UTE,half minute,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+UU,ewes,3,delete,,"homophone (wordplay), not an abbreviation"
+UU,use,3,delete,,"homophone (wordplay), not an abbreviation"
+UU,yews,3,delete,,"homophone (wordplay), not an abbreviation"
+V,against,2,move,1,very common
+V,vee,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+VA,victoria and albert,3,move,2,full form raised to match its synonym's tier
+VAT,value added tax,2,move,1,full form raised to match its synonym's tier
+VC,victoria cross,2,move,1,full form raised to match its synonym's tier
+VER,rev up,3,delete,,"reversal wordplay, not an abbreviation"
+VID,sixpence,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+VID,tanner,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+VIP,sixpence,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+VIP,tanner,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+VR,virual reality,2,fix,virtual reality,typo
+VW,view,3,delete,,"homophone (wordplay), not an abbreviation"
+WAL,sierra leone,2,move,3,obscure vehicle code
+WARD,disadvantage,3,delete,,reversal wordplay (DRAW)
+WARD,drawback,3,delete,,reversal wordplay (DRAW back)
+WD,dominca,2,fix,dominica,typo
+WG,grenada,2,move,3,obscure vehicle code
+WISE,youth leaders,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+WL,st lucia,2,move,3,obscure vehicle code
+WS,western samoa,2,move,3,country now called Samoa
+WY,way,3,delete,,"homophone (wordplay), not an abbreviation"
+X,ex,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+X,exe,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+X,pms address,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+XL,excel,3,delete,,"homophone (wordplay), not an abbreviation"
+XV,side,3,move,2,rugby XV; common
+XV,team,3,move,2,rugby XV; common
+Y,why,3,delete,,"homophone (wordplay), not an abbreviation"
+YEN,japan,2,delete,,"yen is the currency, not the country"
+YS,wise,3,delete,,"homophone (wordplay), not an abbreviation"
+YS,youth leaders,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+YULE,"you will, say",3,delete,,"homophone (wordplay), not an abbreviation"
+YY,wise,3,delete,,"homophone (wordplay), not an abbreviation"
+Z,final letter,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+Z,izzard,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+Z,last character,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+Z,last letter,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+Z,omega,3,delete,,"wordplay or cryptic definition, not an abbreviation"
+Z,zed,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+Z,zee,3,delete,,"spelt-out letter name (sound-alike), not an abbreviation"
+ZO,cross *,3,fix,cross,stray source marker (* / +)

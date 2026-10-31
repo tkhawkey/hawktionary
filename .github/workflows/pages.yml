@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    paths: ['public/**', '.github/workflows/**']   # changes to build scripts or notes don't redeploy
   workflow_dispatch:
 
 permissions:
