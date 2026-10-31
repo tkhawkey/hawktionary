@@ -93,7 +93,9 @@ function defsBlock(d, { limit = Infinity, lead = true } = {}) {
     const ol = h('ol');
     for (const [gloss, src] of list) {
       if (shown >= limit) break;
-      const cls = ['gloss', src === 'n' ? 'wn' : '', lead && shown === 0 ? 'lead' : ''].filter(Boolean).join(' ');
+      // a drop cap only when the definition starts with a letter, not "(chiefly British)…"
+      const dropCap = lead && shown === 0 && /^\p{L}/u.test(gloss);
+      const cls = ['gloss', src === 'n' ? 'wn' : '', dropCap ? 'lead' : ''].filter(Boolean).join(' ');
       ol.append(h('li', { class: cls, 'data-source': SOURCE[src] || '', html: linkify(gloss) }));
       shown++;
     }

@@ -320,7 +320,7 @@ a { color: inherit; }
 .defs li.lead::after { content: ''; display: block; clear: both; }
 .defs li.lead::first-letter {
   float: left; font: 600 calc(var(--dropcap-lines) * 1.55em)/.82 var(--font-serif); font-variation-settings: 'opsz' 144;
-  color: var(--mod); margin: .08em .08em 0 0;
+  color: var(--mod); margin: .08em .08em 0 0; text-transform: uppercase;
 }
 .gloss .w:hover { color: var(--mod); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--mod) 50%, transparent); text-underline-offset: 3px; }
 .also { list-style: none; padding: 0; margin: var(--space-4) 0 0; font-size: var(--text-sm); color: var(--muted); border-top: 1px dotted var(--rule); padding-top: var(--space-2); }
