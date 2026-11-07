@@ -37,13 +37,43 @@ Work out in the app (do not expect them in the file):
 
 ### `abbreviations.tsv` (5,189 rows, load at start-up)
 ```
-abbreviation <TAB> clue_term <TAB> note <TAB> tier <TAB> category
-LA             the          French    1    foreign word
-S              son                    1    general
+abbreviation <TAB> clue_term <TAB> note <TAB> tier <TAB> category <TAB> all categories
+LA             the          French    1    foreign word   foreign word
+DD             doctor                 3    doctor         doctor
+DD             doctor of divinity     1    clergy         clergy; degree
 ```
 - `tier`: 1 = very common in crosswords, 2 = Chambers level / harder puzzles, 3 = rare.
 - `note`: optional (language, "old word", or an expansion).
-- `category`: chemical element, Roman numeral, NATO alphabet, country / vehicle code, US state, music, direction / bridge, calendar, Greek letter, number, foreign word, general.
+- `category` (column 5): one category per row, as before. The current app groups by this.
+- `all categories` (column 6): every category the row belongs to, `; ` separated. Empty means general.
+
+### `categories.tsv` (load at start-up)
+```
+category <TAB> label <TAB> umbrella words
+US state     US states          state; american state; us state
+river        Rivers             river; flower; banker; runner
+```
+**Umbrella words:** in crosswords, "state" means *any* state, "river" any river, "element" any element. When the search text matches an umbrella word, also show the whole category as one grouped block (e.g. "state" → all 55 US-state rows), in addition to the rows whose clue term is literally "state". The 33 categories include rivers, Bible books, doctors, armed forces, police, clergy, royalty, units, money, honours, degrees, politics, chess, cards, sport, drugs, newspapers, places, eras, transport, animals and family.
+
+### `tags.tsv` (≈3,700 rows, load at start-up)
+```
+display <TAB> tags
+Icarus     Greek mythology; Mythology (other)
+Nephthys   Egyptian mythology
+```
+Subject tags, for a filter (e.g. "mythology only", "no Biblical names") and a small label on results. They live in their own file because the app reads any `p` after the third tab of `words.tsv` as "proper noun", so do not add columns to `words.tsv`.
+
+### `indicators.tsv` and `charades.tsv` (optional, load at start-up when present)
+These come from George Ho's cryptic crossword dataset (cryptics.georgeho.org, Open Database License). They appear only once Tom has downloaded the source CSVs and rebuilt. **The app must work without them.**
+```
+indicators.tsv:  phrase <TAB> type <TAB> count <TAB> tier      e.g.  sort of   anagram   412   1
+charades.tsv:    clue_text <TAB> letters <TAB> count <TAB> tier e.g.  fairy     FAE       9     1
+```
+- Indicator `type` is one of anagram, insertion, container, reversal, hidden, deletion, homophone or alternation.
+- `count` is how many clues the item was seen in.
+- `tier`: 1 = common, 3 = seen once.
+
+Credit the dataset on the About screen when these files are present: "Indicators and clue pieces from cryptics.georgeho.org by George Ho, Open Database License."
 
 ### `entries/<xx>.json` (415 files, ≈65 MB total, fetched on demand and cached)
 An object keyed by `display`. File name = first two characters of the entry's `letters` (`"a_"` for one-letter words). Record keys, all optional:
@@ -55,6 +85,14 @@ An object keyed by `display`. File name = first two characters of the entry's `l
 - `k`: "kinds of this" (e.g. tree → ash, elm, oak … in no useful order).
 
 About 25,000 entries have no record at all. That is expected (obscure compounds, inflections).
+
+Since the 7 November rebuild, the word list also holds:
+- about 1,900 mythology and religion names from Wiktionary, with definitions (Nephthys, Amaterasu, Lugh…);
+- Ledger White's Greek mythology list;
+- his "missing from Chambers" words;
+- Tom's own `extra_words.txt` (e.g. Polydectes).
+
+Definitions from Tom's own lists have source `u` in `d`.
 
 ---
 
@@ -183,16 +221,70 @@ The app code itself can use any licence. The data under `public/data/` stays und
 
 ---
 
+## 6b. Next round (Tom's feedback, 7 November)
+
+Build these in roughly this order. Items 1–3 are small fixes; 4 onwards is a new direction for the layout.
+
+1. **Thesaurus tab** under the main search, next to the other modes. Typing "lemon" must not mean opening the definition, scrolling and tapping into the thesaurus.
+
+2. **Hover popover placement.** It sometimes opens above the window and can't be seen.
+   - Default to just below the pointer or word.
+   - Flip above only if there is no room below.
+   - Always keep it inside the viewport horizontally.
+   - Floating UI (`@floating-ui/dom`) does this with `flip()` and `shift()`; a hand-written equivalent is fine.
+
+3. **Umbrella words and categories** from `categories.tsv` (see section 1):
+   - "state" shows all US states as one block;
+   - a category filter uses column 6 of `abbreviations.tsv`;
+   - subject tags from `tags.tsv` work as a filter.
+
+4. **Hub layout** (main box in the middle, supporting cards around it). Typing shows the main result in a central card (e.g. "small" → its definitions). Supporting cards sit around it, each always in the same place so the eye learns where to look:
+   - abbreviations
+   - thesaurus
+   - anagrams
+   - hidden words (item 5)
+   - indicator (when the word is a known indicator, e.g. "small" can signal a shortening)
+   - categories (when the word is an umbrella word)
+
+   A card **slides or pops in only when it has content** and folds away when it has none, so RHINO shows no abbreviation card. On a phone, the cards become a fixed-order swipeable strip or a stack below the main card.
+
+   Motion should feel fluid, poppy and modern:
+   - View Transitions API for cards morphing between states (well supported on Android Chrome);
+   - spring-style easing for appear/disappear;
+   - shared-element movement when a card becomes the main card;
+   - always respect `prefers-reduced-motion`.
+
+5. **Hidden words, everywhere.** For any input of two or more words, in normal search and in the solver:
+   - Join the letters and scan forwards and backwards for entries of 4+ letters, e.g. "lemon sideways" → ONSIDE.
+   - Rank words that cross a word break first (those are the real hidden-word answers), then by zipf.
+   - Filter by enumeration when one is given.
+   - Show the result as its own card. It is cheap: run it on every search.
+
+6. **Solver workspace** (a new mode). Tom pastes a clue into the middle of the page, with the enumeration if known. The clue's words become chips, and cards appear around it:
+   - **Definition candidates:** the first and last 1–3 words, looked up in the thesaurus and filtered to the enumeration. Often the most useful card; most clues define at one end.
+   - **Abbreviations** for each word, Tier 1 first.
+   - **Short synonyms** (up to about 5 letters) for each word, from the thesaurus plus `charades.tsv` when present ("fairy" → FAE, ELF, PERI).
+   - **Indicators** spotted in the clue, with their type ("holds" → insertion/container), from `indicators.tsv` when present. Match multi-word indicators too.
+   - **Anagram fodder:** runs of clue words whose letter count equals the enumeration, with what they anagram to.
+   - **Hidden words** (item 5).
+
+   **Scratchpad:** Tom can drag any piece (FAE, L, S, a word he types himself) into a build tray under the clue. The tray shows:
+   - the letter count against the enumeration;
+   - any fodder letters left over;
+   - whether the assembled letters make a real word or fit the pattern.
+
+   He can reorder pieces, lock letters he is sure of, type new pieces and remove them. Drag and drop must work on touch.
+
+   The app suggests pieces; it does not try to solve. Do not generate container/insertion combinations exhaustively (they explode); let Tom combine pieces and check the result. Show the top few items per card with a "more" control, so the page never floods.
+
 ## 7. Not in version 1
 
 These are planned later:
 
-- hidden-word finder, reversal and letter-removal helpers
+- reversal and letter-removal helpers (hidden words, indicators and the clue scratchpad have moved into 6b)
 - two-word anagram splitting
 - reverse dictionary (search inside definitions)
 - homophones (CMU Pronouncing Dictionary)
-- indicator lists
-- clue scratchpad
 - the Capacitor Android build
 
 ---

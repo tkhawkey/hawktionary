@@ -1,0 +1,7 @@
+# Your own additions to the word list. One word or phrase per line.
+#   word
+#   word - short definition (used only if Wiktionary has none)
+#   word - short definition | tag   (tag examples: Greek mythology, Norse mythology, Biblical)
+# Lines starting with # are ignored. Run build_dictionary.py, build_extras.py, export_slim.py afterwards.
+
+Polydectes - King of Seriphos in Greek mythology, who sent Perseus to fetch the head of Medusa | Greek mythology

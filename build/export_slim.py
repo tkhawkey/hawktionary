@@ -1,7 +1,7 @@
 """
 export_slim.py - turns dictionary_v2.sqlite into the data files the Hawktionary app loads.
 
-Run from the Dictionary folder, after build_dictionary.py:
+Run from the Dictionary folder, after build_dictionary.py and build_extras.py:
     python export_slim.py
     python export_slim.py "C:\\path\\to\\Hawktionary\\public\\data"   (optional output folder)
 
@@ -10,7 +10,11 @@ Default output: Hawktionary/public/data/ next to this script. The folder is wipe
 What it writes (plain UTF-8 text; the web host compresses it in transit):
     manifest.json        version, counts, list of shard files with sizes
     words.tsv            every entry: display, enumeration, zipf, flags  (loaded at start-up)
-    abbreviations.tsv    abbreviation, clue term, note, tier, category  (loaded at start-up)
+    abbreviations.tsv    abbreviation, clue term, note, tier, category, all categories  (loaded at start-up)
+    tags.tsv             entries with subject tags, e.g. Icarus -> Greek mythology   (after build_extras.py)
+    categories.tsv       abbreviation categories with their umbrella search words    (after build_extras.py)
+    indicators.tsv       crossword indicators by type      (if build_extras.py had the source CSV)
+    charades.tsv         clue pieces, e.g. fairy -> FAE     (if build_extras.py had the source CSV)
     entries/<xx>.json    definitions + thesaurus, split by the first two letters
                          of each entry (downloaded in the background, cached for offline)
 """
@@ -160,13 +164,54 @@ def main():
         for eid, d, l, enum, z, proper in entries:
             f.write(f"{d}\t{enum}\t{(z or 0):.1f}\t{'p' if proper else ''}\n")
 
-    # ---- abbreviations
+    tables = {r[0] for r in q("SELECT name FROM sqlite_master WHERE type='table'")}
+    extra_core = []
+
+    # ---- subject tags (kept out of words.tsv: the app reads any 'p' after the third tab as "proper noun")
+    if "entry_tags" in tables:
+        tags = defaultdict(list)
+        for eid, tag in q("SELECT entry_id, tag FROM entry_tags ORDER BY tag"):
+            tags[eid].append(tag)
+        with open(os.path.join(OUT, "tags.tsv"), "w", encoding="utf-8", newline="\n") as f:
+            f.write("# display\ttags (; separated)\n")
+            for eid, d, *_ in entries:
+                if eid in tags:
+                    f.write(f"{d}\t{'; '.join(tags[eid])}\n")
+        extra_core.append("tags.tsv")
+
+    # ---- abbreviations. Column 5 stays the single original category the app groups by;
+    # column 6 lists every category (from build_extras.py), "; " separated.
     log("Writing abbreviations...")
+    abbr_cats = defaultdict(list)
+    if "abbreviation_categories" in tables:
+        for aid, cat in q("SELECT abbreviation_id, category FROM abbreviation_categories ORDER BY category"):
+            abbr_cats[aid].append(cat)
     with open(os.path.join(OUT, "abbreviations.tsv"), "w", encoding="utf-8", newline="\n") as f:
-        f.write("# abbreviation\tclue_term\tnote\ttier\tcategory\n")
-        for a, c, n, t, cat in q("SELECT abbreviation, clue_term, note, tier, category FROM abbreviations "
-                                  "ORDER BY abbreviation, tier, clue_term"):
-            f.write(f"{a}\t{c}\t{n or ''}\t{t}\t{cat}\n")
+        f.write("# abbreviation\tclue_term\tnote\ttier\tcategory\tall categories (; separated)\n")
+        for aid, a, c, n, t, cat in q("SELECT id, abbreviation, clue_term, note, tier, category FROM abbreviations "
+                                       "ORDER BY abbreviation, tier, clue_term"):
+            allc = abbr_cats.get(aid, [])
+            primary = cat if cat and cat != "general" else (allc[0] if allc else "general")
+            f.write(f"{a}\t{c}\t{n or ''}\t{t}\t{primary}\t{'; '.join(allc)}\n")
+
+    if "categories" in tables:
+        with open(os.path.join(OUT, "categories.tsv"), "w", encoding="utf-8", newline="\n") as f:
+            f.write("# category\tlabel\tumbrella words (; separated: searching one shows the whole category)\n")
+            for name, label, trig in q("SELECT name, label, triggers FROM categories ORDER BY label"):
+                f.write(f"{name}\t{label}\t{trig}\n")
+        extra_core.append("categories.tsv")
+    if "indicators" in tables and q("SELECT count(*) FROM indicators").fetchone()[0]:
+        with open(os.path.join(OUT, "indicators.tsv"), "w", encoding="utf-8", newline="\n") as f:
+            f.write("# phrase\ttype\tcount\ttier\n")
+            for row in q("SELECT phrase, type, count, tier FROM indicators ORDER BY phrase, tier, type"):
+                f.write("\t".join(str(x) for x in row) + "\n")
+        extra_core.append("indicators.tsv")
+    if "charades" in tables and q("SELECT count(*) FROM charades").fetchone()[0]:
+        with open(os.path.join(OUT, "charades.tsv"), "w", encoding="utf-8", newline="\n") as f:
+            f.write("# clue_text\tletters\tcount\ttier\n")
+            for row in q("SELECT clue_text, letters, count, tier FROM charades ORDER BY clue_text, tier, letters"):
+                f.write("\t".join(str(x) for x in row) + "\n")
+        extra_core.append("charades.tsv")
 
     # ---- definitions: Wiktionary first (its order puts everyday senses first), then WordNet
     log("Collecting definitions...")
@@ -179,7 +224,7 @@ def main():
         if key in seen[eid] or len(defs[eid]) >= MAX_SENSES:
             continue
         seen[eid].add(key)
-        defs[eid].append([pos, gloss, "w" if src == "wiktionary" else "n"])
+        defs[eid].append([pos, gloss, {"wiktionary": "w", "wordnet": "n"}.get(src, "u")])
     del seen
 
     forms = defaultdict(list)
@@ -420,19 +465,31 @@ def main():
         total += size
         files.append({"file": f"entries/{key}.json", "bytes": size})
 
-    core = [{"file": n, "bytes": os.path.getsize(os.path.join(OUT, n))} for n in ("words.tsv", "abbreviations.tsv")]
+    core = [{"file": n, "bytes": os.path.getsize(os.path.join(OUT, n))}
+            for n in ["words.tsv", "abbreviations.tsv"] + extra_core]
     manifest = {
         "version": time.strftime("%Y-%m-%d.%H%M"),
         "counts": {
             "words": len(entries),
             "entries_with_data": with_data,
             "abbreviations": q("SELECT count(*) FROM abbreviations").fetchone()[0],
+            "tagged_entries": q("SELECT count(DISTINCT entry_id) FROM entry_tags").fetchone()[0] if "entry_tags" in tables else 0,
+            "indicators": q("SELECT count(*) FROM indicators").fetchone()[0] if "indicators" in tables else 0,
+            "charades": q("SELECT count(*) FROM charades").fetchone()[0] if "charades" in tables else 0,
         },
         "core": core,
         "shards": files,
+        "core_formats": {
+            "words.tsv": "display, enumeration, zipf, flags (p = proper noun)",
+            "abbreviations.tsv": "abbreviation, clue_term, note, tier, category (single, as before), all categories (; separated)",
+            "tags.tsv": "display, tags (; separated, e.g. Greek mythology; Biblical)",
+            "categories.tsv": "category, label, umbrella words (; separated)",
+            "indicators.tsv": "phrase, type (anagram/insertion/container/reversal/hidden/deletion/homophone/alternation), count, tier",
+            "charades.tsv": "clue_text, letters, count, tier  (e.g. fairy -> FAE)",
+        },
         "shard_rule": "first two letters of the entry's letters-only form; one-letter words use '<letter>_'",
         "record_keys": {
-            "d": "definitions: [part of speech, gloss, source w=Wiktionary n=WordNet]",
+            "d": "definitions: [part of speech, gloss, source w=Wiktionary n=WordNet u=Tom's own word lists]",
             "f": "form-of pointers: [gloss, base word]  e.g. ['plural of ale', 'ale']",
             "s": "synonyms (WordNet, then Wiktionary, then Moby)",
             "t": "is a type of",

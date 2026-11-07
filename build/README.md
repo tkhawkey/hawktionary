@@ -12,7 +12,12 @@ downloads); the list below says where each came from.
 From the Dictionary folder:
 
     python build_dictionary.py     # sources -> dictionary_v2.sqlite (a few minutes)
+    python build_extras.py         # extra words, mythology tags, categories, indicators, charades (about 1 minute)
     python export_slim.py          # dictionary_v2.sqlite -> Hawktionary/public/data/ (about 1.5 minutes)
+
+`build_extras.py` writes `category_review.csv` in the Dictionary folder for checking the
+abbreviation categories. Corrections go in `abbreviation_category_overrides.csv`, extra words
+in `extra_words.txt` (both read by `build_extras.py`; formats are in its header).
 
 Then commit `public/data/`. Installed copies of the app pick up the new data on their
 second start after it is deployed.
@@ -27,6 +32,10 @@ second start after it is deployed.
 | `moby_thesaurus.txt` | Moby Thesaurus (optional) |
 | `word_frequencies.tsv` | word frequencies from wordfreq (optional) |
 | `dictionary.sqlite` | the older database; its audited abbreviations table is copied in |
+| `extra_words.txt` | Tom's own additions to the word list (optional) |
+| `abbreviation_category_overrides.csv` | corrections to abbreviation categories (optional) |
+| `cryptics_indicators.csv` | indicators from cryptics.georgeho.org, ODbL (optional): `/data/indicators.csv?_stream=on&_size=max` |
+| `cryptics_charades.csv` | charades from cryptics.georgeho.org, ODbL (optional): `/data/charades.csv?_stream=on&_size=max` |
 
 ## If dictionary.sqlite is ever lost
 
