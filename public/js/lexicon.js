@@ -119,14 +119,72 @@ export function isAbbreviationOf(item, headword) {
   return item.length <= 5 && item === item.toUpperCase() && /[A-Z]/.test(item);
 }
 
+/* ---------- categories and umbrella words ---------- */
+
+const categoryInfo = new Map();   // name → { name, label, umbrella }
+const umbrellaIndex = new Map();  // umbrella word → [category names]
+let categoryCache = null;
+
+export function buildCategories(list) {
+  for (const c of list) {
+    categoryInfo.set(c.name, c);
+    for (const u of c.umbrella) (umbrellaIndex.get(u) || umbrellaIndex.set(u, []).get(u)).push(c.name);
+  }
+}
+
+export function umbrellaWords(name) {
+  return categoryInfo.get(name)?.umbrella || [];
+}
+
+export function categoryLabel(name) {
+  return categoryInfo.get(name)?.label || name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+/** Every category with the rows that belong to it; a row can be in several (DD: doctor; clergy). */
 export function abbreviationCategories() {
+  if (categoryCache) return categoryCache;
   const cats = new Map();
   for (const rows of abbrByCode.values()) {
     for (const r of rows) {
-      const c = cats.get(r.category) || { name: r.category, rows: [] };
-      c.rows.push(r);
-      cats.set(r.category, c);
+      for (const name of r.cats) {
+        const c = cats.get(name) || { name, label: categoryLabel(name), rows: [] };
+        c.rows.push(r);
+        cats.set(name, c);
+      }
     }
   }
-  return [...cats.values()];
+  categoryCache = [...cats.values()];
+  return categoryCache;
 }
+
+/** Categories a crossword word stands for as a whole: "state" → US state, "river" → river. */
+export function umbrellaCategories(text) {
+  const names = umbrellaIndex.get(text.trim().toLowerCase().replace(/\s+/g, ' ')) || [];
+  return names.map(n => abbreviationCategories().find(c => c.name === n)).filter(c => c && c.rows.length);
+}
+
+/* ---------- subject tags (Greek mythology, Biblical …) ---------- */
+
+let tagMap = new Map();     // display → [tags]
+
+export function buildTags(map) { tagMap = map; }
+export function tagsOf(display) { return tagMap.get(display) || []; }
+export function allTags() {
+  const counts = new Map();
+  for (const tags of tagMap.values()) for (const t of tags) counts.set(t, (counts.get(t) || 0) + 1);
+  return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([t]) => t);
+}
+
+/** Word indices whose tags pass the test. */
+export function indicesWithTags(test) {
+  const out = [];
+  for (const [d, tags] of tagMap) {
+    if (!test(tags)) continue;
+    for (const i of variantsOf(d)) if (words.display[i] === d) out.push(i);
+  }
+  return out;
+}
+
+/* ---------- crossword clue data (cryptics.georgeho.org), when present ---------- */
+
+export const clueData = { indicators: null, charades: null };

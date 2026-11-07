@@ -1,6 +1,6 @@
 // The dictionary page for one entry (Reference Book style), plus helpers shared by other modules.
 import { getEntry, getPref, setPref } from './data.js';
-import { words, indexOf, zipfOf, ask, abbreviationsOfTerm, isAbbreviationOf } from './lexicon.js';
+import { words, indexOf, zipfOf, ask, abbreviationsOfTerm, isAbbreviationOf, tagsOf } from './lexicon.js';
 import { band, BAND_NAMES } from './text.js';
 import { h, esc } from './dom.js';
 import { wordList } from './wordlist.js';
@@ -141,7 +141,8 @@ export async function renderPage(display, ctx = {}) {
       e ? h('span', { class: 'meta-enum' }, `(${e})`) : null,
       h('span', { class: `meta-band b${band(zipf)}` }, BAND_NAMES[band(zipf)]),
       h('span', { class: 'meta-bar', title: `Frequency ${zipf.toFixed(1)}` }, h('span', { style: { '--z': Math.max(.04, Math.min(1, zipf / 7)).toFixed(3) } })),
-      i >= 0 && words.proper[i] ? h('span', null, 'proper noun') : null),
+      i >= 0 && words.proper[i] ? h('span', null, 'proper noun') : null,
+      ...tagsOf(display).map(t => h('span', { class: 'meta-tag' }, t))),
     h('div', { class: 'ornament', 'aria-hidden': 'true' }));
 
   const body = h('section', { class: 'page-body' });

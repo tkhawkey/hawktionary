@@ -1,6 +1,6 @@
 // Hawktionary: start-up, the four modules and moving between them.
 import { loadCore, prefetchAll, storageStatus, getPref, setPref } from './data.js';
-import { buildWords, startWorker, ask, buildAbbreviations, words } from './lexicon.js';
+import { buildWords, startWorker, ask, buildAbbreviations, buildCategories, buildTags, clueData, words } from './lexicon.js';
 import { h, isWide } from './dom.js';
 import { setPaneHandler, setLinks, closeSheet, sheetOpen, hidePopover } from './viewer.js';
 import { createDictionary } from './modules/dictionary.js';
@@ -81,6 +81,11 @@ async function boot() {
     const core = await loadCore();
     buildWords(core.wordsText);
     buildAbbreviations(core.abbreviations);
+    buildCategories(core.categories);
+    buildTags(core.tags);
+    clueData.indicators = core.indicators;
+    clueData.charades = core.charades;
+    if (core.indicators || core.charades) $('credit-cryptics').hidden = false;
     startWorker(core.wordsText);   // queries wait for it in order; no need to block the page
     for (const [name, m] of Object.entries(MODULES)) {
       instances[name] = m.create($(m.el), {

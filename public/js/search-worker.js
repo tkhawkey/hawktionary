@@ -78,6 +78,8 @@ function ensureSorted() {
 
 function passes(i, opts) {
   if (!opts.proper && proper[i]) return false;
+  if (opts.only && !opts.only.has(i)) return false;
+  if (opts.not && opts.not.has(i)) return false;
   if (opts.maxBand && band(zipf[i]) > opts.maxBand) return false;
   return true;
 }
@@ -89,12 +91,17 @@ function finish(hits, limit) {
   return { total: hits.length, results: hits.slice(0, limit) };
 }
 
-function patternSearch({ text, phrases, proper: p, maxBand, limit = 400 }) {
+/** Subject filter from the page: word indices to keep only, or to leave out. */
+function subjectOpts(subject) {
+  return { only: subject?.only ? new Set(subject.only) : null, not: subject?.not ? new Set(subject.not) : null };
+}
+
+function patternSearch({ text, phrases, proper: p, maxBand, subject, limit = 400 }) {
   const parsed = parsePattern(text);
   if (!parsed) return { total: 0, results: [], parsed: null };
   if (!phrases) ensureShapes();
   const match = compileMatcher(parsed, phrases);
-  const opts = { proper: p, maxBand };
+  const opts = { proper: p, maxBand, ...subjectOpts(subject) };
   const hits = [];
   if (parsed.hasStar) {
     for (let i = 0; i < letters.length; i++) if (match(letters[i], shapes?.[i]) && passes(i, opts)) hits.push(i);
@@ -106,7 +113,7 @@ function patternSearch({ text, phrases, proper: p, maxBand, limit = 400 }) {
 
 const ABC = 'abcdefghijklmnopqrstuvwxyz';
 
-function anagramSearch({ fodder, pattern, proper: p, maxBand, limit = 400 }) {
+function anagramSearch({ fodder, pattern, proper: p, maxBand, subject, limit = 400 }) {
   ensureAlphagrams();
   const raw = fodder.toLowerCase();
   const blanks = Math.min(2, (raw.match(/[?.#]/g) || []).length);
@@ -124,7 +131,7 @@ function anagramSearch({ fodder, pattern, proper: p, maxBand, limit = 400 }) {
       filter = compileMatcher(parsed, !parsed.hasBreaks);
     }
   }
-  const opts = { proper: p, maxBand };
+  const opts = { proper: p, maxBand, ...subjectOpts(subject) };
   const hits = [];
   for (const k of keys) {
     for (const i of byAlphagram.get(k) || []) {

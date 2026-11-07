@@ -31,3 +31,7 @@ https://github.com/rspeer/wordfreq
 
 ## Abbreviations
 The cryptic crossword abbreviations list was compiled from public crossword resources, then audited and tiered by hand for this app.
+
+## Crossword indicators and clue pieces
+**Cryptic crossword clues dataset**, George Ho. https://cryptics.georgeho.org
+The indicator and charade tables are used under the Open Database License (ODbL).

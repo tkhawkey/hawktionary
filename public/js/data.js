@@ -71,25 +71,56 @@ async function checkForNewData(current) {
   } catch { /* offline: try again next time */ }
 }
 
-function parseAbbreviations(text) {
+/** Data rows of a TSV file, split into cells (header lines starting with # skipped). */
+function tsvRows(text) {
   const rows = [];
-  for (const raw of text.split('\n')) {
+  for (const raw of (text || '').split('\n')) {
     if (!raw || raw[0] === '#') continue;
-    const [abbr, term, note, tier, category] = raw.replace(/\r$/, '').split('\t');
-    rows.push({ abbr, term, note: note || '', tier: parseInt(tier, 10) || 3, category: category || 'general' });
+    rows.push(raw.replace(/\r$/, '').split('\t'));
   }
   return rows;
 }
 
-/** Load the core files. Returns { version, wordsText, abbreviations }. */
+function list(cell) {
+  return (cell || '').split(';').map(s => s.trim()).filter(Boolean);
+}
+
+function parseAbbreviations(text) {
+  return tsvRows(text).map(([abbr, term, note, tier, category, all]) => {
+    const cats = list(all);
+    return {
+      abbr, term, note: note || '', tier: parseInt(tier, 10) || 3,
+      category: category || 'general',
+      cats: cats.length ? cats : [category || 'general'],   // every category it belongs to
+    };
+  });
+}
+
+/** categories.tsv: name, label, umbrella words ("state" stands for any US state). */
+function parseCategories(text) {
+  return tsvRows(text).map(([name, label, umbrella]) => ({ name, label: label || name, umbrella: list(umbrella).map(u => u.toLowerCase()) }));
+}
+
+/** tags.tsv → Map display → [tags]. */
+function parseTags(text) {
+  return new Map(tsvRows(text).map(([d, tags]) => [d, list(tags)]));
+}
+
+/** indicators.tsv / charades.tsv: [text, type or letters, count, tier]. */
+function parseCounted(text, second) {
+  return tsvRows(text).map(([t, x, count, tier]) => ({ text: t, [second]: x, count: parseInt(count, 10) || 1, tier: parseInt(tier, 10) || 3 }));
+}
+
+/** Load the core files: everything the manifest lists under "core". Files added in later
+ *  data versions (tags, categories, indicators, charades) are optional. */
 export async function loadCore() {
   // start from the cache when we can, so start-up never waits for the network
   manifest = await cachedManifest();
   const fromCache = !!manifest;
   if (!manifest) manifest = await fetchManifest();
   cacheName = CACHE_PREFIX + manifest.version;
-  const [wordsRes, abbrRes] = await Promise.all([cachedFetch('words.tsv'), cachedFetch('abbreviations.tsv')]);
-  const [wordsText, abbrText] = await Promise.all([wordsRes.text(), abbrRes.text()]);
+  const names = manifest.core.map(f => f.file);
+  const texts = Object.fromEntries(await Promise.all(names.map(async n => [n, await (await cachedFetch(n)).text()])));
   if (hasCaches) {
     // versions older than the one in use can go (a newer one may be downloading)
     for (const n of await caches.keys()) {
@@ -97,7 +128,15 @@ export async function loadCore() {
     }
   }
   if (fromCache) checkForNewData(manifest.version);
-  return { version: manifest.version, wordsText, abbreviations: parseAbbreviations(abbrText) };
+  return {
+    version: manifest.version,
+    wordsText: texts['words.tsv'],
+    abbreviations: parseAbbreviations(texts['abbreviations.tsv']),
+    categories: parseCategories(texts['categories.tsv']),
+    tags: parseTags(texts['tags.tsv']),
+    indicators: texts['indicators.tsv'] ? parseCounted(texts['indicators.tsv'], 'type') : null,
+    charades: texts['charades.tsv'] ? parseCounted(texts['charades.tsv'], 'letters') : null,
+  };
 }
 
 export function shardName(display) {

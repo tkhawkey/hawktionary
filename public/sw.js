@@ -2,7 +2,7 @@
 // Data files (data/…) are cached by js/data.js in a versioned cache; here they only
 // fall back to that cache when the network is unavailable.
 // Bump SHELL_VERSION when shipping app changes so old shells are cleared.
-const SHELL_VERSION = 'shell-2026-10-31f';
+const SHELL_VERSION = 'shell-2026-11-07a';
 const SHELL = [
   './',
   'index.html',

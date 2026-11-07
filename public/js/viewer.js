@@ -147,17 +147,39 @@ async function showPopover(el) {
   const open = h('button', { class: 'open' }, 'Open entry ›');
   open.addEventListener('click', () => openEntry(display, { fromViewer: !!el.closest('#sheet') }));
   popover.replaceChildren(content, open);
+  popover.style.maxHeight = '';
   popover.hidden = false;
-  const r = el.getBoundingClientRect();
-  const pw = popover.offsetWidth, ph = popover.offsetHeight;
-  const left = Math.min(Math.max(8, r.left), innerWidth - pw - 8);
-  let top = r.bottom + 6;
-  let origin = 'top left';
-  if (top + ph > innerHeight - 8) { top = r.top - ph - 6; origin = 'bottom left'; }
+  placePopover(anchorRect(el));
+}
+
+/** The line box of the word under the pointer (a word can wrap over two lines). */
+function anchorRect(el) {
+  const rects = [...el.getClientRects()];
+  return rects.find(r => pointer.y >= r.top - 2 && pointer.y <= r.bottom + 2) || rects[0] || el.getBoundingClientRect();
+}
+
+/** Below the word if it fits, above if only that fits, otherwise on the roomier side and scrolling;
+ *  always inside the window. */
+function placePopover(r) {
+  const gap = 6, edge = 8;
+  const pw = popover.offsetWidth;
+  const below = innerHeight - r.bottom - gap - edge;
+  const above = r.top - gap - edge;
+  let ph = popover.offsetHeight;
+  const downwards = ph <= below || (ph > above && below >= above);
+  const room = downwards ? below : above;
+  if (ph > room) { popover.style.maxHeight = Math.max(120, room) + 'px'; ph = popover.offsetHeight; }
+  let top = downwards ? r.bottom + gap : r.top - gap - ph;
+  top = Math.min(Math.max(edge, top), innerHeight - ph - edge);
+  const x = Math.min(Math.max(r.left, pointer.x - 24), r.right);   // start near the pointer, not the far end of a long word
+  const left = Math.min(Math.max(edge, x), innerWidth - pw - edge);
   popover.style.left = left + 'px';
   popover.style.top = top + 'px';
-  popover.style.transformOrigin = origin;
+  popover.style.transformOrigin = downwards ? 'top left' : 'bottom left';
 }
+
+const pointer = { x: 0, y: 0 };
+document.addEventListener('pointermove', (e) => { pointer.x = e.clientX; pointer.y = e.clientY; }, { passive: true });
 
 document.addEventListener('pointerover', (e) => {
   if (e.pointerType !== 'mouse' || !canHover()) return;

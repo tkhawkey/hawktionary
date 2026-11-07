@@ -1,6 +1,8 @@
 // Thesaurus: synonyms, "type of" and "kinds", filterable by a crossword pattern or length.
 // A word with several meanings shows them all together first, with a quiet row of
 // meanings underneath to narrow the lists to one (doctor the physician / to doctor).
+// The panel is shared: the Thesaurus tab has its own search box, and the Dictionary's
+// main search shows the same panel when its Thesaurus mode is chosen.
 import { getEntry, getPref, setPref } from '../data.js';
 import { words, indexOf, ask } from '../lexicon.js';
 import { makeDisplayFilter } from '../text.js';
@@ -12,43 +14,35 @@ import { searchField, smallField, remember, recentChips, plural } from '../ui.js
 const GROUPS = [['s', 'Synonyms'], ['t', 'Type of'], ['k', 'Kinds']];
 const MEANINGS_SHOWN = 6;   // meaning chips before "more"
 
-export function createThesaurus(root, ctx) {
+/**
+ * The thesaurus for one word, with its "Fits" filter, order switch and meaning chips.
+ * opts.onChange({ filter, meaning }) when Tom changes the filter or meaning;
+ * opts.onPick(display) when he picks a suggested spelling; opts.onShown(display) after a word loads;
+ * opts.go(module, params) to move to another module.
+ */
+export function thesaurusPanel({ onChange = () => {}, onPick = () => {}, onShown = () => {}, go }) {
   let view = getPref('thesView', 'commonness');
   let seq = 0;
-  let shown = null;
+  let text = '';
   let current = null;   // { display, all: [[label, items]], meanings: [{ pos, gloss, groups }] }
   let meaning = -1;     // -1 = all meanings
   let meaningsOpen = false;
 
-  const search = searchField({
-    placeholder: 'A word for its synonyms',
-    ariaLabel: 'Thesaurus word',
-    delay: 220,
-    onInput: () => { meaning = -1; syncParams(); load(); },
-    onEnter: (v) => remember('recent-thes', v),
-  });
-  const filter = smallField({ caption: 'Fits', placeholder: '??? or g* or 3', ariaLabel: 'Only words that fit this pattern', onInput: () => { syncParams(); draw(); } });
+  const filter = smallField({ caption: 'Fits', placeholder: '??? or g* or 3', ariaLabel: 'Only words that fit this pattern', onInput: () => { changed(); draw(); } });
   const switcher = viewSwitch(view, (v) => { view = v; setPref('thesView', v); draw(); });
   const head = h('div', { class: 'thes-head' });
   const chips = h('nav', { class: 'meanings', 'aria-label': 'Meanings' });
   const out = h('div', { class: 'thes-out' });
-  root.append(h('div', { class: 'thes-mod narrow' },
-    h('div', { class: 'search-wrap' }, search.el, h('div', { class: 'controls' }, filter.el, switcher)),
-    head, chips, out));
+  const controls = h('div', { class: 'controls' }, filter.el, switcher);
+  const el = h('div', { class: 'thes-panel' }, head, chips, out);
 
-  function syncParams() {
-    ctx.setParams({
-      w: search.value.trim() || null,
-      f: filter.input.value.trim() || null,
-      m: meaning >= 0 ? String(meaning + 1) : null,
-    });
+  function changed() {
+    onChange({ filter: filter.input.value.trim() || null, meaning: meaning >= 0 ? meaning : null });
   }
 
   async function load() {
     const my = ++seq;
-    const text = search.value.trim();
-    shown = text + '|' + filter.input.value.trim() + '|' + meaning;
-    if (!text) { current = null; return showHome(); }
+    if (!text) { current = null; head.replaceChildren(); chips.replaceChildren(); out.replaceChildren(); return; }
     let display = indexOf(text) >= 0 ? words.display[indexOf(text)] : null;
     if (!display) {
       const found = await ask('lookup', { text, limit: 12 });
@@ -90,12 +84,13 @@ export function createThesaurus(root, ctx) {
     head.replaceChildren(
       h('div', { class: 'thes-title' },
         h('h2', { class: 'thes-word' }, display),
-        h('button', { class: 'sec-link', onclick: () => ctx.go('dictionary', { q: display }) }, 'Dictionary ›')),
+        go ? h('button', { class: 'sec-link', onclick: () => go('dictionary', { q: display }) }, 'Dictionary ›') : null),
       via ? h('p', { class: 'note' }, `“${via}” has no thesaurus entry of its own, so these are for “${display}”.`) : '',
       gloss && current.meanings.length < 2 ? h('p', { class: 'thes-gloss gloss', html: linkify(gloss) }) : '');
     meaningsOpen = meaning >= MEANINGS_SHOWN;
     drawMeanings();
     draw();
+    onShown(display);
   }
 
   function hasThesaurus(r) {
@@ -103,7 +98,7 @@ export function createThesaurus(root, ctx) {
   }
 
   function pickChip(d) {
-    return h('button', { class: 'chip', onclick: () => { search.set(d); meaning = -1; syncParams(); load(); } }, d);
+    return h('button', { class: 'chip', onclick: () => onPick(d) }, d);
   }
 
   function shortGloss(g) {
@@ -118,8 +113,7 @@ export function createThesaurus(root, ctx) {
     if (list.length < 2) return;
     const pick = (n) => {
       meaning = n;
-      syncParams();
-      shown = search.value.trim() + '|' + filter.input.value.trim() + '|' + meaning;
+      changed();
       drawMeanings();
       draw();
     };
@@ -165,11 +159,61 @@ export function createThesaurus(root, ctx) {
     out.replaceChildren(...sections);
   }
 
+  return {
+    el,
+    controls,
+    /** Show a word; filter and meaning (0-based, -1 = all) are optional. */
+    show(word, { filter: f, meaning: m } = {}) {
+      text = (word || '').trim();
+      if (f !== undefined) filter.input.value = f || '';
+      meaning = m ?? -1;
+      load();
+    },
+  };
+}
+
+export function createThesaurus(root, ctx) {
+  let shown = null;
+  let filterText = '';
+  let meaning = -1;
+
+  const search = searchField({
+    placeholder: 'A word for its synonyms',
+    ariaLabel: 'Thesaurus word',
+    delay: 220,
+    onInput: () => { meaning = -1; syncParams(); show(); },
+    onEnter: (v) => remember('recent-thes', v),
+  });
+  const panel = thesaurusPanel({
+    go: ctx.go,
+    onChange: ({ filter, meaning: m }) => { filterText = filter || ''; meaning = m ?? -1; syncParams(); },
+    onPick: (d) => { search.set(d); meaning = -1; syncParams(); show(); },
+  });
+  const home = h('div', { class: 'thes-home' });
+  root.append(h('div', { class: 'thes-mod narrow' },
+    h('div', { class: 'search-wrap' }, search.el, panel.controls), home, panel.el));
+
+  function key() { return search.value.trim() + '|' + filterText + '|' + meaning; }
+
+  function syncParams() {
+    ctx.setParams({
+      w: search.value.trim() || null,
+      f: filterText || null,
+      m: meaning >= 0 ? String(meaning + 1) : null,
+    });
+    shown = key();
+  }
+
+  function show() {
+    const w = search.value.trim();
+    home.replaceChildren();
+    if (!w) showHome();
+    panel.show(w, { filter: filterText, meaning });
+  }
+
   function showHome() {
-    head.replaceChildren();
-    chips.replaceChildren();
-    const recent = recentChips('recent-thes', (r) => { search.set(r); meaning = -1; syncParams(); load(); });
-    out.replaceChildren(h('div', { class: 'home' },
+    const recent = recentChips('recent-thes', (r) => { search.set(r); meaning = -1; syncParams(); show(); });
+    home.append(h('div', { class: 'home' },
       recent ? [h('h3', { class: 'caps' }, 'Recent'), recent] : '',
       h('p', { class: 'note' }, 'Type a word to see its synonyms, what it is a type of, and kinds of it. Add a pattern in “Fits” to keep only words that fit your crossword slot: ??? for three letters, ?a* for words with A second.')));
   }
@@ -181,9 +225,10 @@ export function createThesaurus(root, ctx) {
       const m = params.m ? parseInt(params.m, 10) - 1 : -1;
       if (shown === w + '|' + f + '|' + m && search.value === w) return;
       search.set(w);
-      filter.input.value = f;
+      filterText = f;
       meaning = Number.isFinite(m) ? m : -1;
-      load();
+      shown = key();
+      show();
     },
     focus() { search.input.focus(); search.input.select(); },
   };

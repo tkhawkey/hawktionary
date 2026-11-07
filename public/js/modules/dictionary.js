@@ -1,15 +1,37 @@
 // Dictionary: the smart search box (word, pattern or anagram), abbreviation strips, and the page.
 import { getPref, setPref } from '../data.js';
-import { words, indexOf, ask } from '../lexicon.js';
+import { words, indexOf, ask, tagsOf, allTags, indicesWithTags } from '../lexicon.js';
 import { guessMode, parsePattern, leftover, fold } from '../text.js';
 import { h, isWide } from '../dom.js';
 import { renderPage } from '../entry.js';
 import { wordList } from '../wordlist.js';
 import { grid, blocks, dropInto } from '../squares.js';
-import { searchField, smallField, toggle, seg, bandSeg, remember, recentChips, plural } from '../ui.js';
+import { searchField, smallField, toggle, seg, bandSeg, selectField, remember, recentChips, plural } from '../ui.js';
 import { abbrStrip } from './abbreviations.js';
+import { thesaurusPanel } from './thesaurus.js';
 
-const MODE_NAMES = { lookup: 'Word', pattern: 'Pattern', anagram: 'Anagram' };
+const MODE_NAMES = { lookup: 'Word', pattern: 'Pattern', anagram: 'Anagram', thesaurus: 'Thesaurus' };
+const MODES = ['auto', 'lookup', 'pattern', 'anagram', 'thesaurus'];
+const isMyth = (t) => /mythology|Arthurian/.test(t);
+
+/** Subject tags shortened for a label beside a word: "Greek mythology" → "Greek myth". */
+function tagLabel(tags) {
+  return tags.map(t => t === 'Mythology (other)' ? 'myth' : t.replace(' mythology', ' myth')).join(' · ');
+}
+
+/** The subject filter's choices, and what each keeps or leaves out. */
+function subjectChoices() {
+  const tags = allTags();
+  if (!tags.length) return null;
+  return [
+    ['any', 'Any subject'],
+    ['myth', 'Mythology only'],
+    ...tags.filter(isMyth).map(t => ['tag:' + t, t]),
+    ...tags.filter(t => !isMyth(t)).map(t => ['tag:' + t, t + ' only']),
+    ['not:Biblical', 'No Biblical names'],
+    ['untagged', 'No mythology or religion'],
+  ];
+}
 
 export function createDictionary(root, ctx) {
   const state = {
@@ -17,25 +39,50 @@ export function createDictionary(root, ctx) {
     phrases: getPref('phrases', false),
     maxBand: getPref('maxBand', 5),
     proper: getPref('proper', true),
+    subject: getPref('subject', 'any'),
     seq: 0,
     tool: null,
     refs: {},
     paneTrail: [],
     paneSeq: 0,
     shown: null,     // query currently rendered
+    thes: { filter: '', meaning: -1 },   // the Thesaurus mode's "Fits" filter and chosen meaning
   };
+
+  // the same thesaurus panel as the Thesaurus tab, shown when the Thesaurus mode is chosen
+  const thes = thesaurusPanel({
+    go: ctx.go,
+    onChange: ({ filter, meaning }) => { state.thes = { filter: filter || '', meaning: meaning ?? -1 }; syncParams(); },
+    onPick: (d) => { search.set(d); state.thes.meaning = -1; syncParams(); run(); },
+    onShown: (d) => { if (isWide()) showInPane(d); },
+  });
+
+  function syncParams() {
+    const thesaurus = state.mode === 'thesaurus';
+    ctx.setParams({
+      q: search.value.trim() || null,
+      m: state.mode === 'auto' ? null : state.mode,
+      f: thesaurus && state.thes.filter ? state.thes.filter : null,
+      s: thesaurus && state.thes.meaning >= 0 ? String(state.thes.meaning + 1) : null,
+    });
+    state.shown = key();
+  }
+
+  function key() {
+    return [search.value, state.mode, state.thes.filter, state.thes.meaning].join('|');
+  }
 
   const search = searchField({
     placeholder: 'Word, ?a?e? pattern, or /anagram',
     ariaLabel: 'Search the dictionary',
-    onInput: (v) => { ctx.setParams({ q: v.trim() || null, m: state.mode === 'auto' ? null : state.mode }); run(); },
+    onInput: () => { state.thes = { filter: state.thes.filter, meaning: -1 }; syncParams(); run(); },
     onEnter: (v) => { remember('recent', v); focusFirst(); },
   });
   search.input.addEventListener('input', updateLabel);
 
-  const modes = seg([['auto', 'Auto'], ['lookup', 'Word'], ['pattern', 'Pattern'], ['anagram', 'Anagram']], 'auto', (m) => {
+  const modes = seg(MODES.map(m => [m, m === 'auto' ? 'Auto' : MODE_NAMES[m]]), 'auto', (m) => {
     state.mode = m;
-    ctx.setParams({ q: search.value.trim() || null, m: m === 'auto' ? null : m });
+    syncParams();
     updateLabel();
     run();
     search.input.focus();
@@ -66,12 +113,13 @@ export function createDictionary(root, ctx) {
   function run() {
     const seq = ++state.seq;
     const text = search.value;
-    state.shown = text + '|' + state.mode;
+    state.shown = key();
     const mode = currentMode();
     updateLabel();
     if (!mode) return showHome();
     if (mode === 'pattern') return runPattern(text, seq);
     if (mode === 'anagram') return runAnagram(text.trim().replace(/^\//, ''), seq);
+    if (mode === 'thesaurus') return runThesaurus(text.trim().replace(/^\//, ''));
     return runLookup(text.trim().replace(/^\//, ''), seq);
   }
 
@@ -85,14 +133,29 @@ export function createDictionary(root, ctx) {
   }
 
   function filterControls(extra) {
+    const choices = subjectChoices();
     return h('div', { class: 'controls' },
       extra,
       bandSeg((v) => { state.maxBand = v; run(); }),
-      toggle('Names', state.proper, (v) => { state.proper = v; setPref('proper', v); run(); }));
+      toggle('Names', state.proper, (v) => { state.proper = v; setPref('proper', v); run(); }),
+      choices ? selectField('Subject', choices, state.subject, (v) => { state.subject = v; setPref('subject', v); run(); }) : null);
+  }
+
+  /** The subject filter as word indices for the worker: { only } or { not }, or null for any. */
+  function subjectFilter() {
+    const v = state.subject;
+    if (v === 'myth') return { only: indicesWithTags(t => t.some(isMyth)) };
+    if (v.startsWith('tag:')) return { only: indicesWithTags(t => t.includes(v.slice(4))) };
+    if (v.startsWith('not:')) return { not: indicesWithTags(t => t.includes(v.slice(4))) };
+    if (v === 'untagged') return { not: indicesWithTags(t => t.length > 0) };
+    return null;
   }
 
   function itemsFor(indices) {
-    return indices.map(i => ({ d: words.display[i], z: words.zipf[i], e: words.enumr[i] }));
+    return indices.map(i => {
+      const tags = tagsOf(words.display[i]);
+      return { d: words.display[i], z: words.zipf[i], e: words.enumr[i], note: tags.length ? tagLabel(tags) : null };
+    });
   }
 
   function noMatch(suggestPhrases) {
@@ -100,6 +163,7 @@ export function createDictionary(root, ctx) {
     if (suggestPhrases) tips.push('turn on “Phrases”');
     if (state.maxBand < 5) tips.push('choose “All”');
     if (!state.proper) tips.push('include names');
+    if (state.subject !== 'any') tips.push('choose “Any subject”');
     return h('p', { class: 'note' }, tips.length ? `Nothing found. Try: ${tips.join(', ')}.` : 'Nothing in the word list fits.');
   }
 
@@ -166,7 +230,7 @@ export function createDictionary(root, ctx) {
     const home = h('div', { class: 'home' });
     const pins = getPref('pins', []);
     if (pins.length) home.append(h('h3', { class: 'caps' }, 'Pinned'), h('div', { class: 'chips' }, pins.map(p => h('button', { class: 'chip', 'data-w': p }, p))));
-    const recent = recentChips('recent', (r) => { search.set(r); ctx.setParams({ q: r }); run(); });
+    const recent = recentChips('recent', (r) => { search.set(r); syncParams(); run(); });
     if (recent) home.append(h('h3', { class: 'caps' }, 'Recent'), recent);
     home.append(h('h3', { class: 'caps' }, 'Ways to search'), h('dl', { class: 'hints' },
       hint('sailor', 'the word, its thesaurus and abbreviations'),
@@ -178,7 +242,7 @@ export function createDictionary(root, ctx) {
   }
 
   function hint(example, text) {
-    const b = h('button', { class: 'hint-ex', onclick: () => { search.set(example); ctx.setParams({ q: example }); run(); search.input.focus(); } }, example);
+    const b = h('button', { class: 'hint-ex', onclick: () => { search.set(example); syncParams(); run(); search.input.focus(); } }, example);
     return [h('dt', null, b), h('dd', null, text)];
   }
 
@@ -221,6 +285,15 @@ export function createDictionary(root, ctx) {
     if (mainDisplay && isWide()) root.querySelectorAll(`.results .w[data-w="${CSS.escape(mainDisplay)}"]`).forEach(el => el.classList.add('current'));
   }
 
+  /* ---------- thesaurus ---------- */
+
+  function runThesaurus(text) {
+    setTool('thesaurus', (el) => el.append(thes.controls));
+    if (!results.contains(thes.el)) results.replaceChildren(thes.el);
+    if (!isWide()) clearPane();
+    thes.show(text, { filter: state.thes.filter, meaning: state.thes.meaning });
+  }
+
   /* ---------- pattern ---------- */
 
   async function runPattern(text, seq) {
@@ -231,7 +304,7 @@ export function createDictionary(root, ctx) {
     const parsed = parsePattern(text);
     refs.grid.replaceChildren(parsed ? grid(parsed.shape) : '');
     if (!parsed) { results.replaceChildren(h('p', { class: 'note' }, 'Type a pattern: ? for a missing letter, * for any run.')); return; }
-    const res = await ask('pattern', { text, phrases: state.phrases, proper: state.proper, maxBand: state.maxBand, limit: 2000 });
+    const res = await ask('pattern', { text, phrases: state.phrases, proper: state.proper, maxBand: state.maxBand, subject: subjectFilter(), limit: 2000 });
     if (seq !== state.seq) return;
     if (!isWide() || !pane.childNodes.length) clearPane();
     const label = parsed.enumeration ? ` · (${state.phrases ? parsed.letterCount : parsed.enumeration})` : '';
@@ -263,7 +336,7 @@ export function createDictionary(root, ctx) {
       results.replaceChildren(h('p', { class: 'note' }, 'Type the letters to rearrange.'));
       return;
     }
-    const res = await ask('anagram', { fodder, pattern: refs.cross.input.value, proper: state.proper, maxBand: state.maxBand, limit: 2000 });
+    const res = await ask('anagram', { fodder, pattern: refs.cross.input.value, proper: state.proper, maxBand: state.maxBand, subject: subjectFilter(), limit: 2000 });
     if (seq !== state.seq) return;
     if (!res.total) {
       refs.answer.replaceChildren();
@@ -306,12 +379,14 @@ export function createDictionary(root, ctx) {
   return {
     show(params) {
       const q = params.q || '';
-      const m = params.m || 'auto';
-      if (state.shown === q + '|' + m && search.value === q) return;
+      const m = MODES.includes(params.m) ? params.m : 'auto';
+      const thesState = { filter: params.f || '', meaning: params.s ? (parseInt(params.s, 10) || 0) - 1 : -1 };
+      if (state.shown === [q, m, thesState.filter, thesState.meaning].join('|') && search.value === q) return;
       if (m !== state.mode) {
         state.mode = m;
-        modes.querySelectorAll('button').forEach((b, n) => b.setAttribute('aria-checked', String(['auto', 'lookup', 'pattern', 'anagram'][n] === m)));
+        modes.querySelectorAll('button').forEach((b, n) => b.setAttribute('aria-checked', String(MODES[n] === m)));
       }
+      state.thes = thesState;
       search.set(q);
       run();
     },

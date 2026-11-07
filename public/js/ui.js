@@ -39,6 +39,15 @@ export function smallField({ caption, placeholder, ariaLabel, onInput, delay = 1
   return { el: h('label', { class: 'small-field' }, h('span', { class: 'sf-cap' }, caption), input), input };
 }
 
+/** A small labelled drop-down: options [[value, label]]. */
+export function selectField(caption, options, value, onChange) {
+  const select = h('select', { 'aria-label': caption });
+  for (const [v, label] of options) select.append(h('option', { value: v }, label));
+  select.value = options.some(([v]) => v === value) ? value : options[0][0];
+  select.addEventListener('change', () => onChange(select.value));
+  return h('label', { class: 'small-select' }, h('span', { class: 'sf-cap' }, caption), select);
+}
+
 export function toggle(label, checked, onChange) {
   const input = h('input', { type: 'checkbox', role: 'switch' });
   input.checked = checked;
