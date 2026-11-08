@@ -2,7 +2,7 @@
 // Data files (data/…) are cached by js/data.js in a versioned cache; here they only
 // fall back to that cache when the network is unavailable.
 // Bump SHELL_VERSION when shipping app changes so old shells are cleared.
-const SHELL_VERSION = 'shell-2026-11-07a';
+const SHELL_VERSION = 'shell-2026-11-08a';
 const SHELL = [
   './',
   'index.html',
@@ -25,6 +25,13 @@ const SHELL = [
   'js/modules/thesaurus.js',
   'js/modules/abbreviations.js',
   'js/modules/solve.js',
+  'lab.html',
+  'css/lab.css',
+  'js/lab/app.js',
+  'js/lab/cards.js',
+  'js/lab/cluedata.js',
+  'js/lab/hub.js',
+  'js/lab/clue.js',
   'fonts/fraunces-normal-latin.woff2',
   'fonts/fraunces-normal-latin-ext.woff2',
   'fonts/fraunces-italic-latin.woff2',
@@ -79,7 +86,8 @@ self.addEventListener('fetch', (event) => {
   // in the background. A new SHELL_VERSION installs a fresh shell and the page offers a reload.
   event.respondWith((async () => {
     const cache = await caches.open(SHELL_VERSION);
-    const key = req.mode === 'navigate' ? './' : req;
+    // pages: the new layout (lab.html) is its own page; everything else is the classic one
+    const key = req.mode === 'navigate' ? (path.startsWith('lab') ? 'lab.html' : './') : req;
     const hit = await cache.match(key, { ignoreSearch: req.mode === 'navigate' });
     const network = fetch(req).then(res => {
       if (res.ok) cache.put(key, res.clone());

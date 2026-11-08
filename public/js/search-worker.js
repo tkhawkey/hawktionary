@@ -164,6 +164,54 @@ function lookup({ text, limit = 12 }) {
   return { exact, prefix: prefix.slice(0, limit) };
 }
 
+/**
+ * Hidden words: entries of 4+ letters spelt out inside the joined letters of two or more
+ * words, forwards or backwards ("lemon sideways" → ONSIDE). Words that cross a word
+ * break come first (those are the real hidden-word answers), then by commonness.
+ * pattern (optional) keeps only words that fit the enumeration.
+ */
+function hiddenSearch({ text, pattern, min = 4, max = 15, limit = 60 }) {
+  const tokens = String(text || '').split(/[\s\/]+/).map(fold).filter(Boolean);
+  if (tokens.length < 2) return { total: 0, results: [] };
+  const s = tokens.join('');
+  const n = s.length;
+  const starts = [], ends = [];
+  let pos = 0;
+  for (const t of tokens) { starts.push(pos); pos += t.length; ends.push(pos); }
+  const breaks = ends.slice(0, -1);
+  let fit = null;
+  if (pattern && pattern.trim()) {
+    const parsed = parsePattern(pattern);
+    if (parsed) fit = compileMatcher(parsed, true);
+  }
+  const rev = s.split('').reverse().join('');
+  const seen = new Map();
+  for (const backwards of [false, true]) {
+    const str = backwards ? rev : s;
+    for (let i = 0; i < n; i++) {
+      for (let len = min; len <= max && i + len <= n; len++) {
+        const sub = str.slice(i, i + len);
+        const ids = byLetters.get(sub);
+        if (!ids) continue;
+        if (fit && !fit(sub)) continue;
+        const a = backwards ? n - i - len : i;
+        const b = a + len;
+        const crosses = breaks.some(k => a < k && k < b);
+        // a clue word itself, read forwards, is not hidden
+        if (!backwards && !crosses && starts.includes(a) && ends.includes(b)) continue;
+        // the best entry for these letters: a common word over a proper noun
+        let best = ids[0];
+        for (const id of ids) if ((proper[best] && !proper[id]) || (proper[best] === proper[id] && zipf[id] > zipf[best])) best = id;
+        const key = sub + (backwards ? '<' : '>');
+        if (!seen.has(key)) seen.set(key, { i: best, letters: sub, backwards, crosses, a, b });
+      }
+    }
+  }
+  const hits = [...seen.values()];
+  hits.sort((x, y) => (y.crosses - x.crosses) || (proper[x.i] - proper[y.i]) || (zipf[y.i] - zipf[x.i]));
+  return { total: hits.length, results: hits.slice(0, limit) };
+}
+
 /** Alphabetical neighbours of an entry, for the running head. */
 function neighbours({ index, count = 1 }) {
   ensureSorted();
@@ -184,6 +232,7 @@ self.onmessage = (ev) => {
     else if (type === 'anagram') result = anagramSearch(payload);
     else if (type === 'lookup') result = lookup(payload);
     else if (type === 'neighbours') result = neighbours(payload);
+    else if (type === 'hidden') result = hiddenSearch(payload);
     else throw new Error('Unknown query ' + type);
     self.postMessage({ id, result });
   } catch (err) {

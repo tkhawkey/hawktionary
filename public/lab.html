@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Hawktionary · new layout</title>
+  <meta name="description" content="A trial layout for Hawktionary: one search in the middle with cards around it, and a clue workspace.">
+  <meta name="theme-color" content="#F7F4EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#151517" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preload" href="fonts/inter-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/fraunces-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/lab.css">
+  <script>
+    try {
+      var t = JSON.parse(localStorage.getItem('hawk:theme'));
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+  <script type="module" src="js/lab/app.js"></script>
+</head>
+<body class="lab" data-module="dictionary">
+  <header class="lab-head">
+    <a class="wordmark" href="#/" aria-label="Hawktionary, new layout">
+      <span class="wm-square" aria-hidden="true">H</span><span class="wm-rest" aria-hidden="true">awktionary</span>
+    </a>
+    <span class="lab-badge">New layout</span>
+    <div class="seg lab-modes" role="radiogroup" aria-label="Mode">
+      <button role="radio" data-mode="hub" aria-checked="true">Search</button>
+      <button role="radio" data-mode="clue" aria-checked="false">Clue</button>
+    </div>
+    <span class="offline-status" id="offline-status" aria-live="polite"></span>
+    <a class="lab-classic" href="index.html">Classic layout</a>
+  </header>
+
+  <main class="lab-main">
+    <section id="mode-hub" aria-label="Search"></section>
+    <section id="mode-clue" aria-label="Clue workspace" hidden></section>
+  </main>
+
+  <div class="boot" id="boot"><span class="wm-square">H</span><span class="boot-text">Opening the dictionary…</span></div>
+
+  <div class="scrim" id="scrim" hidden></div>
+  <section class="sheet" id="sheet" aria-modal="true" role="dialog" aria-label="Entry" hidden>
+    <div class="sheet-handle" id="sheet-handle"><span></span></div>
+    <div class="sheet-bar">
+      <nav class="trail" id="sheet-trail" aria-label="Words visited"></nav>
+      <button class="icon-btn" id="sheet-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body" id="sheet-body"></div>
+  </section>
+
+  <div class="popover" id="popover" role="tooltip" hidden></div>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>
